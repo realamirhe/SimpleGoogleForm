@@ -21,6 +21,9 @@ const styles = theme => ({
   margin: {
     margin: theme.spacing.unit,
   },
+  icon: {
+    cursor: 'pointer'
+  }
 })
 
 class SignUp extends React.Component {
@@ -77,6 +80,7 @@ class SignUp extends React.Component {
             startAdornment: (
               <InputAdornment
                 position="start"
+                className={classes.icon}
                 onClick={this.handleClickShowPassword}
               >
                 {showPassword ? <VisibilityOff /> : <Visibility />}
