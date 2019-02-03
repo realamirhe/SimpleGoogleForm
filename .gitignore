@@ -1,8 +1,8 @@
 # Logs
 *.log
 
-# Coverage directory used by tools like istanbul
-coverage
+# testing
+/coverage
 
 # Optional npm cache directory
 .npm
@@ -17,14 +17,20 @@ coverage
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
-.env
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# node_modules
-node_modules/
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
 
-# build
-build/
+# production
+/build
 
 # DS_Store
 .DS_Store
