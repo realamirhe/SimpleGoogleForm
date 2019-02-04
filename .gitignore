@@ -25,12 +25,14 @@
 .env.production.local
 
 # dependencies
-/node_modules
 /.pnp
 .pnp.js
 
-# production
-/build
+# node_modules
+node_modules/
+
+# build
+build/
 
 # DS_Store
 .DS_Store

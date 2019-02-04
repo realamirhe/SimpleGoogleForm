@@ -1,0 +1,12 @@
+{
+  "main": "main.js",
+  "scripts": {
+    "start": "nodemon src/main.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.4",
+    "mongoose": "^5.2.4",
+    "nodemon": "^1.18.3"
+  }
+}
