@@ -9,8 +9,12 @@ exports.connect = dbName => {
   db.once("open", () => console.log(`Connected to ( ${dbName} ) database!`));
 };
 
-exports.addForm = newForm =>
-  new models.Form({ name: newForm.name, answers: newForm.answers }).save();
+exports.addForm = (newForm, fileName) =>
+  new models.Form({
+    name: newForm.name,
+    answers: newForm.answers,
+    fileName
+  }).save();
 
 exports.getAllFormsName = () => models.Form.find({}).select("name");
 
