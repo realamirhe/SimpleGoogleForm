@@ -1,29 +1,28 @@
 .c--question {
   display: flex;
   justify-content: space-between;
-  width: 160px;
-  height: 10px;
-  margin: 10px 0;
+  width: 130px;
+  height: 6px;
+  margin: 10px;
 }
 
 .c--checkbox {
   position: relative;
-  width: 26px;
-  height: 18px;
+  width: 22px;
+  height: 14px;
   box-sizing: content-box;
-  margin: 0 2px;
+  margin: 0 1px;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
   border: 1.5px solid black;
   line-height: 1.5rem;
-  font-size: .8rem;
+  font-size: .6rem;
   font-weight: 500;
   letter-spacing: 2px;
   border-radius: 50px;
   overflow:hidden;
-  background: none;
   z-index: 1;
   background: white;
   transition:         0.9s ease-in;

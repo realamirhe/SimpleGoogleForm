@@ -5,23 +5,25 @@ import Question from '../question'
 // style
 import './style.scss'
 
-const pack = ({ from }) => (
-  <div className="c--pack">
-    <Question number={from + 0} />
-    <Question number={from + 1} />
-    <Question number={from + 2} />
-    <Question number={from + 3} />
-    <Question number={from + 4} />
-    <Question number={from + 5} />
-    <Question number={from + 6} />
-    <Question number={from + 7} />
-    <Question number={from + 8} />
-    <Question number={from + 9} />
-  </div>
-)
-
-pack.propTypes = {
+const Pack = ({ from, count }) => {
+  const numbers = []
+  for (let number = from; number < from + count; number++) {
+    numbers.push(number)
+  }
+  return (
+    <div className="c--pack">
+      {numbers.map(number => (
+        <Question number={number} key={number} />
+      ))}
+    </div>
+  )
+}
+Pack.propTypes = {
   from: PropTypes.number.isRequired,
+  count: PropTypes.number,
+}
+Pack.defaultProps = {
+  count: 10,
 }
 
-export default pack
+export default Pack

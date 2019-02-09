@@ -1,11 +1,13 @@
 .c--pack {
-    width: 180px;
-    height: 315px;
-    border: 2px solid #f44034;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-sizing: border-box;
-    margin-bottom: 5px;
+  width: auto;
+  height: auto;
+  border: 2px solid #f08991;
+  background-color: white;
+  border-radius: 20px;
+  display: flex;
+  flex-flow: wrap;
+  align-items: center;
+  box-sizing: border-box;
+  margin-bottom: 5px;
+  padding-bottom: 10px;
   }
