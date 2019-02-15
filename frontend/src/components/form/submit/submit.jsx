@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 // third-party-packages
 import classNames from 'classnames'
 // style
@@ -79,7 +78,5 @@ class Submit extends Component {
     )
   }
 }
-
-Submit.propTypes = {}
 
 export default Submit

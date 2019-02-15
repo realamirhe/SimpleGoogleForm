@@ -35,7 +35,6 @@ class Question extends Component {
   render() {
     const { selected } = this.state
     const { number } = this.props
-    console.log('selected', selected)
     return (
       <div className="c--question">
         <span className="question_label">{number}</span>

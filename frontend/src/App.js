@@ -6,6 +6,7 @@ import Pack from './components/form/pack'
 import Submit from './components/form/submit'
 // style
 import './App.scss'
+// import { getForm } from './helper/requestHandler'
 
 /* App */
 class App extends Component {
