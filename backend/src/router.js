@@ -1,55 +1,92 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const database = require("./database/database");
-const multer = require("multer");
+const express = require('express')
+const bodyParser = require('body-parser')
+const database = require('./database/database')
+const multer = require('multer')
+const R = require('ramda')
 
+// multer setup
 const storage = multer.diskStorage({
-  destination: (_, __, cb) => cb(null, "/files"),
+  destination: (_, __, cb) => cb(null, '/files'),
   filename: (_, file, callback) =>
-    callback(null, Date.now().toString() + path.extname(file.originalname))
-});
+    callback(null, Date.now().toString() + path.extname(file.originalname)),
+})
+const upload = multer({ storage }).single('pdf')
 
-const upload = multer({ storage }).single("pdf");
+// router setup
+const router = express.Router()
+router.use(bodyParser.json())
 
-const router = express.Router();
-router.use(bodyParser.json());
+// helper Functions
+const getPersentage = (correctAnswer, userAnswer) =>
+  R.compose(
+    result => result / correctAnswer.length,
+    R.reduce(
+      (result, ans, index) =>
+        ans === correctAnswer[index] ? result + 3 : !ans ? result : result - 1,
+      0,
+      userAnswer,
+    ),
+  )
 
-router.post("/addNewForm", (req, res) =>
+const binarySearch = (data, target, start, end) => {
+  const middle = Math.floor((start + end) / 2)
+  if (target == data[middle].svgX) return data[middle]
+  if (end - 1 === start)
+    return Math.abs(data[start].svgX - target) >
+      Math.abs(data[end].svgX - target)
+      ? data[end]
+      : data[start]
+  if (target > data[middle].svgX) return binarySearch(data, target, middle, end)
+  if (target < data[middle].svgX)
+    return binarySearch(data, target, start, middle)
+}
+let closestPoint = binarySearch(data, target, 0, data.length - 1)
+// request handlers
+
+router.post('/addNewForm', (req, res) =>
   upload(req, res, err => {
-    if (err) console.log(err);
-    else if (!req.file) return res.status(400).send("no files were uploaded");
+    if (err) console.log(err)
+    else if (!req.file) return res.status(400).send('no files were uploaded')
     database
       .addForm(req.body, `${req.file.filename}`)
-      .then(() => res.send("submitted in database"))
-      .catch(error => res.status(500).send(error));
-    return imageToBase64(req, res);
-  })
-);
+      .then(({ _id }) => res.send({ id: _id }))
+      .catch(error => res.status(500).send(error))
+  }),
+)
 
-router.get("/getAllFormsName", (_, res) =>
+router.get('/getTestResult', ({ body }, res) =>
   database
-    .getAllFormsName()
-    .then(data => res.send(data))
-    .catch(err => res.status(500).send(err))
-);
+    .getFormAnswersById(body.formId)
+    .then(({ answers, userParticipated, fileName }) => {
+      const persentage = getPersentage(answers, body.answers)
+      if (!R.contains(ip, userParticipated)) {
+        database
+          .saveAnswer(body.formId, persentage)
+          .then(({ rankingList }) =>
+            res.send({
+              rank: binarySearch(
+                rankingList,
+                persentage,
+                0,
+                rankingList.length - 1,
+              ),
+              persentage,
+              fileName,
+            }),
+          )
+          .catch(error => res.status(500).send(error))
+      } else res.send({ persentage, fileName })
+    })
+    .catch(err => res.status(500).send(err)),
+)
 
-router.get("/getSelectedFormAnswers", ({ query }, res) =>
+router.get('/getForm', ({ body }, res) =>
   database
-    .getFormAnswersByName(query.name)
-    .then(data => res.send(data))
-    .catch(err => res.status(500).send(err))
-);
+    .getFormById(body.formId)
+    .then(({ answers, name }) =>
+      res.send({ name, questionsSize: answers.length() }),
+    )
+    .catch(err => res.status(500).send(err)),
+)
 
-router.post("/uploadAudio", (req, res) =>
-  upload(req, res, err => {
-    if (err) console.log(err);
-    else if (!req.file) return res.status(400).send("no files were uploaded");
-    database
-      .addAudio(req.body, `${req.file.filename}`)
-      .then(() => res.send("submitted in database"))
-      .catch(error => res.status(500).send(error));
-    return imageToBase64(req, res);
-  })
-);
-
-exports.Router = router;
+exports.Router = router
