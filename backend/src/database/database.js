@@ -18,7 +18,7 @@ exports.addForm = (newForm, fileName) =>
 
 exports.getFormAnswersById = id =>
   models.Form.findOne({ _id: id }).select(
-    'answers rankingList userParticipated',
+    'answers rankingList userParticipated fileName',
   )
 
 exports.saveAnswer = (formId, persentage) =>
