@@ -4,7 +4,8 @@ import PropTypes from 'prop-types'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
-import Fab from '@material-ui/core/Fab'
+// component
+import Icon from '../../../helper/components/Icon'
 // style
 import { withStyles } from '@material-ui/core/styles'
 // assets
@@ -17,15 +18,12 @@ const styles = theme => ({
     alignItems: 'center',
     margin: 10,
   },
-  fab: {
-    margin: 5,
-  },
   content: {
     flex: '1 0 auto',
   },
 })
 
-// onClick={/* request to form id*/}
+// TODO: onClick={/* request to form id*/}
 /* Mini Form Item */
 const MiniFormItem = ({ classes, formName, fromId }) => {
   return (
@@ -33,15 +31,7 @@ const MiniFormItem = ({ classes, formName, fromId }) => {
       <CardContent className={classes.content}>
         <Typography variant="subtitle1">{formName}</Typography>
       </CardContent>
-      <Fab
-        size="small"
-        color="secondary"
-        aria-label="Edit"
-        disableFocusRipple
-        className={classes.fab}
-      >
-        <Edit />
-      </Fab>
+      <Icon color="secondary" icon={<Edit />} ariaLabel="Edit" />
     </Card>
   )
 }
