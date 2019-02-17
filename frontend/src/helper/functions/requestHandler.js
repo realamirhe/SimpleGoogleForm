@@ -1,21 +1,67 @@
 import request from 'superagent'
 // Config
-// import config from '../setup/config'
+import config from '../../setup/config'
 
-// e -r * e/4*r
-// get array of {formName, fromId}
-const getForms = () => {}
+// admin panel #######################################
 
-// Number of Questions, Test Name
-const getForm = formId => {}
+const getForms = () =>
+  request
+    .get(config.server + '/getForms')
+    .set('Access-Control-Allow-Origin', '*')
+    .then(res => res.body) // array of {formName, fromId}
 
-// Array of answers, Test Percentage, ranking, Pdf Answer link
-const getTestResult = (formId, userId, answerArray) => {}
+const signIn = (username, password) =>
+  request
+    .post(config.server + '/signin')
+    .set('Access-Control-Allow-Origin', '*')
+    .send({ username, password })
+    .then(res => res.body) // ({correct})
 
-// get authenticated in application
-const signIn = (username, password) => {}
+const adminGetForm = formId =>
+  request
+    .get(config.server + '/adminGetForm')
+    .set('Access-Control-Allow-Origin', '*')
+    .query({ formId })
+    .then(res => res.body) // { name, questionsNumber }
 
-// request for making form in back end return '.../forms/:formId'
-const makeForm = (formName, answerArray, pdfFile) => {}
+const makeForm = formData =>
+  // ({name, answers, ...file})
+  request
+    .post(config.server + '/addNewForm')
+    .set('Access-Control-Allow-Origin', '*')
+    .send(formData)
+    .then(res => res.body) // ({id})
 
-export { getForm, getTestResult, signIn, makeForm, getForms }
+const editForm = formData =>
+  // ({fileId, name, answers, ...file})
+  request
+    .post(config.server + '/editForm')
+    .set('Access-Control-Allow-Origin', '*')
+    .send(formData)
+    .then(console.log)
+
+// user panel #######################################
+const userGetForm = formId =>
+  request
+    .get(config.server + '/userGetForm')
+    .set('Access-Control-Allow-Origin', '*')
+    .query({ formId })
+    .then(res => res.body) // { name, questionsNumber }
+
+const getTestResult = data =>
+  // ({formId, userId, answers, computeRanking})
+  request
+    .get(config.server + '/getTestResult')
+    .set('Access-Control-Allow-Origin', '*')
+    .send(data)
+    .then(res => res.body) // {rank, persentage, fileName}  ======> rank perhapse is null
+
+export {
+  userGetForm,
+  getTestResult,
+  signIn,
+  makeForm,
+  getForms,
+  adminGetForm,
+  editForm,
+}
