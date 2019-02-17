@@ -8,7 +8,7 @@ exports.connect = dbName => {
   )
 
   const db = mongoose.connection
-  db.on('error', console.error.bind(console, 'Connection error:'))
+  db.on('error', () => console.log('can not connect to mongo db'))
   db.once('open', () => console.log(`Connected to ( ${dbName} ) database!`))
 }
 
