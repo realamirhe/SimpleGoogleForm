@@ -19,7 +19,7 @@ const styles = {
   },
 }
 /* Admin Form */
-const FormMaker = ({ classes }) => (
+const FormInfo = ({ classes, onChangeInput, onChangeCount, onSubmit }) => (
   <Paper className={classes.root}>
     <Input placeholder="Form Name" onChange={Function.prototype} />
     <Count value={0} onChange={Function.prototype} />
@@ -27,6 +27,10 @@ const FormMaker = ({ classes }) => (
   </Paper>
 )
 
-FormMaker.propTypes = {}
+FormInfo.propTypes = {
+  onChangeInput: PropTypes.func.isRequired,
+  onChangeCount: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+}
 
-export default withStyles(styles)(FormMaker)
+export default withStyles(styles)(FormInfo)
