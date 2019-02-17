@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // Third-party-packages
+import { withStyles } from '@material-ui/core/styles'
+import Paper from '@material-ui/core/Paper'
 import { update, map, always, range, any, isNil } from 'ramda'
 // component
 import Pack from './pack'
+import { Button } from './../buttons'
+
 // import { getForm } from '../../helper/functions/requestHandler'
 import { Map, Block } from '../../functions/ramdaHelper'
 // assets
@@ -14,37 +18,55 @@ import { FILL, REMOVE, ADMIN } from '../../functions/constants'
 // instance helpers
 const pencilPlayer = new Audio(Pencil)
 const eraserPlayer = new Audio(Eraser)
+// style
+const styles = {
+  root: {
+    padding: 15,
+    background: 'cornflowerblue',
+    borderRadius: 20,
+  },
+
+  warper: {
+    display: 'flex',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    boxSizing: 'border-box',
+  },
+}
 
 /* Form */
 class Form extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      questionCount: 0,
-      questions: [],
-      formName: '',
+      questionCount: props.initialQuestionCount,
+      questions: props.initialQuestions,
+      formName: props.initialFormName,
     }
 
     this.changeAnswer = this.changeAnswer.bind(this)
+    this.sendForm = this.sendForm.bind(this)
   }
 
   componentDidMount() {
-    // const { formId } = this.props
-    // if (formId)
+    // const { admin, fromId } = this.props
+    // if (!admin && formId)
     // getForm(formId).then(this.initialization)
   }
 
-  sendForm(user) {
+  sendForm() {
     const { questions } = this.state
-    if (user === ADMIN) {
-      if (any(isNil, questions)) //TODO: show snackbar error componet
-      else //TODO: send data back to form itself
-    }
+    const { admin } = this.props
+    if (admin && any(isNil, questions)) console.log('has null')
+    // TODO: show snackbar error componet
+    else console.log('okay')
+    //TODO: send data back to form itself
   }
 
   changeAnswer(index) {
     const { disableSound } = this.props
-    return newValue => type => {
+    return newValue => type => () => {
       if (!disableSound && type === FILL) pencilPlayer.play()
       else if (!disableSound && type === REMOVE) eraserPlayer.play()
       this.setState(({ questions }) => ({
@@ -60,29 +82,57 @@ class Form extends Component {
 
   render() {
     const { questions } = this.state
+    const { classes } = this.props
     return (
-      <div>
-        {Map(
-          (blockQuestion, index) => (
-            <Pack
-              index={10 * index}
-              blockQuestion={blockQuestion}
-              changeAnswer={this.changeAnswer}
-            />
-          ),
-          Block(10, questions),
-        )}
-      </div>
+      <Paper className={classes.root} elevation={1}>
+        <div className={classes.warper}>
+          {Map(
+            (blockQuestion, index) => (
+              <Pack
+                index={10 * index}
+                blockQuestion={blockQuestion}
+                changeAnswer={this.changeAnswer}
+                key={10 * index}
+              />
+            ),
+            Block(10, questions),
+          )}
+        </div>
+        <span
+          style={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <Button type="secondary" text="Send" onClick={this.sendForm} />
+          <Button
+            type="secondary"
+            text="upload"
+            onClick={this.uploadAnswerPdf}
+          />
+        </span>
+      </Paper>
     )
   }
 }
 
 Form.propTypes = {
   disableSound: PropTypes.bool,
+  admin: PropTypes.bool,
+
+  initialQuestionCount: PropTypes.number,
+  initialQuestions: PropTypes.arrayOf(PropTypes.number),
+  initialFormName: PropTypes.string,
 }
 
 Form.defaultProps = {
   disableSound: false,
+  admin: false,
+
+  initialQuestionCount: 0,
+  initialQuestions: [],
+  initialFormName: '',
 }
 
-export default Form
+export default withStyles(styles)(Form)
