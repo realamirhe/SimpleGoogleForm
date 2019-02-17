@@ -5,7 +5,6 @@ import React, { Component } from 'react'
 // import Pack from './components/form/pack'
 // import Form from './helper/components/form'
 import Forms from './components/forms/list'
-import Submit from './helper/components/animatedButton'
 // style
 import './App.scss'
 // import { getForm } from './helper/requestHandler'
@@ -31,6 +30,26 @@ class App extends Component {
             { formName: 'Azmon Reyazi 2', formId: '2' },
             { formName: 'Azmon Reyazi 2', formId: '2' },
             { formName: 'Azmon Reyazi 2', formId: '2' },
+            { formName: 'Azmon Reyazi 2', formId: '2' },
+            { formName: 'Azmon Reyazi 2', formId: '2' },
+            { formName: 'Azmon Reyazi 2', formId: '2' },
+            { formName: 'Azmon Reyazi 2', formId: '2' },
+            { formName: 'Azmon Reyazi 2', formId: '2' },
+            { formName: 'Azmon Reyazi 2', formId: '2' },
+            {
+              formName: 'Azmon klahsgklhasklhglkahgklhaklshgklhgasklReyazi 2',
+              formId: '2',
+            },
+            { formName: 'Azmon Reyazi 2', formId: '2' },
+            { formName: 'Azmon Reyazi 2', formId: '2' },
+            { formName: 'Azmon Reyazi 2', formId: '2' },
+            { formName: 'Azmon Reyazi 2', formId: '2' },
+            { formName: 'Azmon Reyazi 2', formId: '2' },
+            { formName: 'Azmon Reyazi 2', formId: '2' },
+            {
+              formName: 'Azmon klahsgklhasklhglkahgklhaklshgklhgasklReyazi 2',
+              formId: '2',
+            },
             { formName: 'Azmon Reyazi 2', formId: '2' },
             { formName: 'Azmon Reyazi 2', formId: '2' },
             { formName: 'Azmon Reyazi 2', formId: '2' },

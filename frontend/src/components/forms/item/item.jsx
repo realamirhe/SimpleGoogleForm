@@ -23,7 +23,7 @@ const styles = theme => ({
   },
 })
 
-// onClick={/* request to form id*/}
+// TODO: onClick={/* request to form id*/}
 /* Mini Form Item */
 const MiniFormItem = ({ classes, formName, fromId }) => {
   return (
@@ -31,7 +31,7 @@ const MiniFormItem = ({ classes, formName, fromId }) => {
       <CardContent className={classes.content}>
         <Typography variant="subtitle1">{formName}</Typography>
       </CardContent>
-      <Icon color="secondary" icon={<Edit />} ariaLabel="Edit" onClick />
+      <Icon color="secondary" icon={<Edit />} ariaLabel="Edit" />
     </Card>
   )
 }

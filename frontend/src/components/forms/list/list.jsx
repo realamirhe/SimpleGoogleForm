@@ -5,9 +5,8 @@ import { map } from 'ramda'
 // assets
 import NoteAdd from '@material-ui/icons/NoteAdd'
 // component
-import MiniFormItem from '../item'
 import Icon from '../../../helper/components/Icon'
-
+import MiniFormItem from '../item'
 // style
 import './style.scss'
 
@@ -32,6 +31,13 @@ const MiniFormList = ({ forms }) => {
   )
 }
 
-MiniFormList.propTypes = {}
+MiniFormList.propTypes = {
+  forms: PropTypes.arrayOf(
+    PropTypes.shape({
+      formName: PropTypes.string,
+      formId: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+}
 
 export default MiniFormList
