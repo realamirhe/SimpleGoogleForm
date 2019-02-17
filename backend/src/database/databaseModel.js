@@ -1,11 +1,13 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
-const { Schema } = mongoose;
+const { Schema } = mongoose
 
 const formSchema = new Schema({
   name: String,
   answers: Array,
-  fileName: String
-});
+  fileName: String,
+  percentageList: Array,
+  userList: Array,
+})
 
-exports.Form = mongoose.model("form", formSchema);
+exports.Form = mongoose.model('form', formSchema)
