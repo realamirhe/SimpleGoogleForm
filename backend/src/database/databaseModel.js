@@ -6,8 +6,8 @@ const formSchema = new Schema({
   name: String,
   answers: Array,
   fileName: String,
-  rankingList: Array,
-  userParticipated: Array,
+  percentageList: Array,
+  userList: Array,
 })
 
 exports.Form = mongoose.model('form', formSchema)

@@ -4,6 +4,7 @@ const database = require('./database/database')
 const multer = require('multer')
 const R = require('ramda')
 const path = require('path')
+const requestIp = require('request-ip')
 
 // multer setup
 const storage = multer.diskStorage({
@@ -20,7 +21,7 @@ router.use(bodyParser.json())
 // helper Functions
 const getPersentage = (correctAnswer, userAnswer) =>
   R.compose(
-    result => result / (correctAnswer.length * 3),
+    result => (result / (correctAnswer.length * 3)) * 100,
     R.addIndex(R.reduce)(
       (result, ans, index) =>
         ans === correctAnswer[index] ? result + 3 : !ans ? result : result - 1,
@@ -30,7 +31,9 @@ const getPersentage = (correctAnswer, userAnswer) =>
 
 const binarySearch = (data, target, start, end) => {
   const middle = Math.floor((start + end) / 2)
-  if (target == data[middle]) return data[middle]
+  if (target == data[middle]) {
+    return data.length - middle
+  }
   if (end - 1 === start)
     return Math.abs(data[start] - target) > Math.abs(data[end] - target)
       ? data[end]
@@ -50,43 +53,49 @@ router.post('/addNewForm', (req, res) =>
   }),
 )
 
-router.get(
-  '/getTestResult',
-  ({ body, connection }, res) =>
-    console.log({ ip: connection.remoteAddress }) ||
-    database
-      .getFormAnswersById(body.formId)
-      .then(({ answers, userParticipated, fileName }) => {
-        const persentage = getPersentage(answers, body.answers)
-        console.log({ persentage })
-        if (!R.contains(ip, userParticipated)) {
-          database
-            .saveAnswer(body.formId, persentage)
-            .then(({ rankingList }) =>
-              res.send({
-                rank: binarySearch(
-                  rankingList,
+router.get('/getTestResult', (req, res) => {
+  // const userId = requestIp.getClientIp(req)
+  const {
+    body: { formId, answers: userAnswer, userId, getRanking },
+  } = req
+
+  database
+    .getFormAnswersById(formId)
+    .then(({ answers, userList, fileName }) => {
+      const persentage = getPersentage(answers, userAnswer)
+      if (getRanking && !R.contains(userId, userList)) {
+        database
+          .saveAnswer(formId, persentage, userId)
+          .then(({ percentageList }) =>
+            res.send({
+              rank:
+                binarySearch(
+                  percentageList,
                   persentage,
                   0,
-                  rankingList.length - 1,
-                ),
-                persentage,
-                fileName,
-              }),
-            )
-            .catch(error => res.status(500).send(error))
-        } else res.send({ persentage, fileName })
-      })
-      .catch(err => res.status(500).send(err)),
-)
+                  percentageList.length - 1,
+                ) || 1,
+              persentage,
+              fileName,
+            }),
+          )
+          .catch(error => res.status(500).send(error))
+      } else res.send({ persentage, fileName })
+    })
+    .catch(err => res.status(500).send(err))
+})
 
-router.get('/getForm', ({ body }, res) =>
+router.get('/getForm', ({ body: { formId } }, res) =>
   database
-    .getFormById(body.formId)
+    .getFormById(formId)
     .then(({ answers, name }) =>
       res.send({ name, questionsSize: answers.length() }),
     )
     .catch(err => res.status(500).send(err)),
+)
+
+router.get('/downloadPdf/:fileName', ({ params: { fileName } }, res) =>
+  res.download(path.resolve(`./src/files/${fileName}`)),
 )
 
 exports.Router = router

@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const models = require('./databaseModel')
 
 exports.connect = dbName => {
-  mongoose.connect(`mongodb://localhost/${dbName}`)
+  mongoose.connect(`mongodb://localhost/${dbName}`, { useNewUrlParser: true })
 
   const db = mongoose.connection
   db.on('error', console.error.bind(console, 'Connection error:'))
@@ -18,14 +18,19 @@ exports.addForm = (newForm, fileName) =>
 
 exports.getFormAnswersById = id =>
   models.Form.findOne({ _id: id }).select(
-    'answers rankingList userParticipated fileName',
+    'answers percentageList userList fileName',
   )
 
-exports.saveAnswer = (formId, persentage) =>
-  models.Form.findAndUpdate(
+exports.saveAnswer = (formId, persentage, userId) =>
+  models.Form.findOneAndUpdate(
     { _id: formId },
-    { $push: { rankingList: { $each: [persentage], $sort: 1 } } },
-  ).select('rankingList')
+    {
+      $push: {
+        percentageList: { $each: [persentage], $sort: 1 },
+        userList: userId,
+      },
+    },
+  ).select('percentageList')
 
 exports.getFormById = id =>
   models.Form.findOne({ _id: id }).select('name answers')
