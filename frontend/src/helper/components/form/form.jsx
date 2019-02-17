@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 // Third-party-packages
-import { update } from 'ramda'
+import { update, map, always, range, any, isNil } from 'ramda'
 // component
 import Pack from './pack'
 // import { getForm } from '../../helper/functions/requestHandler'
@@ -9,7 +10,7 @@ import { Map, Block } from '../../functions/ramdaHelper'
 import Pencil from '../../../assets/sound_fx/pencil.mp3'
 import Eraser from '../../../assets/sound_fx/eraser.mp3'
 // CONST
-import { FILL, REMOVE } from '../../functions/constants'
+import { FILL, REMOVE, ADMIN } from '../../functions/constants'
 // instance helpers
 const pencilPlayer = new Audio(Pencil)
 const eraserPlayer = new Audio(Eraser)
@@ -29,13 +30,23 @@ class Form extends Component {
 
   componentDidMount() {
     // const { formId } = this.props
+    // if (formId)
     // getForm(formId).then(this.initialization)
   }
 
+  sendForm(user) {
+    const { questions } = this.state
+    if (user === ADMIN) {
+      if (any(isNil, questions)) //TODO: show snackbar error componet
+      else //TODO: send data back to form itself
+    }
+  }
+
   changeAnswer(index) {
+    const { disableSound } = this.props
     return newValue => type => {
-      if (type === FILL) pencilPlayer.play()
-      else if (type === REMOVE) eraserPlayer.play()
+      if (!disableSound && type === FILL) pencilPlayer.play()
+      else if (!disableSound && type === REMOVE) eraserPlayer.play()
       this.setState(({ questions }) => ({
         questions: update(index, newValue, questions),
       }))
@@ -43,10 +54,7 @@ class Form extends Component {
   }
 
   initialization({ questionCount, formName }) {
-    const questions = []
-    for (let number = 0; number < questionCount; number++) {
-      questions.push(null)
-    }
+    const questions = map(always(null), range(0, questionCount))
     this.setState({ questions, questionCount, formName })
   }
 
@@ -69,8 +77,12 @@ class Form extends Component {
   }
 }
 
-// Form.propTypes = {}
+Form.propTypes = {
+  disableSound: PropTypes.bool,
+}
 
-// Form.defaultProps = {}
+Form.defaultProps = {
+  disableSound: false,
+}
 
 export default Form

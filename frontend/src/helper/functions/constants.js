@@ -1,4 +1,6 @@
 const REMOVE = 'REMOVE'
 const FILL = 'FILL'
 
-export { REMOVE, FILL }
+const ADMIN = 'ADMIN'
+
+export { REMOVE, FILL, ADMIN }
