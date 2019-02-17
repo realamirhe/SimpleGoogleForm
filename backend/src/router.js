@@ -47,13 +47,13 @@ router.post('/addNewForm', (req, res) =>
     if (err) console.log(err)
     database
       .addForm(JSON.parse(req.body.data))
-      .then(_id => {
+      .then(({ _id }) => {
         if (req.file)
           database
-            .editFormFileName(`${req.file.filename}`)
-            .then(() => res.send({ id: _id }))
+            .editFormFileName(_id, `${req.file.filename}`)
+            .then(() => console.log({ id: _id }) || res.send({ id: _id }))
             .catch(error => res.status(500).send(error))
-        else res.send({ id: _id })
+        else console.log({ id: _id }) || res.send({ id: _id })
       })
       .catch(error => res.status(500).send(error))
   }),
@@ -62,12 +62,13 @@ router.post('/addNewForm', (req, res) =>
 router.post('/editForm', (req, res) =>
   upload(req, res, err => {
     if (err) console.log(err)
+    const data = JSON.parse(req.body.data)
     database
-      .editForm(JSON.parse(req.body.data))
+      .editForm(data)
       .then(() => {
         if (req.file)
           database
-            .editFormFileName(`${req.file.filename}`)
+            .editFormFileName(data.formId, `${req.file.filename}`)
             .then(() => res.send('seccessful'))
             .catch(error => res.status(500).send(error))
         else res.send('seccessful')
@@ -120,7 +121,7 @@ router.get('/userGetForm', ({ body: { formId } }, res) =>
 router.get('/getForms', (_, res) =>
   database
     .getForms()
-    .then(({ _id, name }) => res.send({ name, formId: _id }))
+    .then(result => res.send({ result }))
     .catch(err => res.status(500).send(err)),
 )
 

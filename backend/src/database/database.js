@@ -2,10 +2,13 @@ const mongoose = require('mongoose')
 const models = require('./databaseModel')
 
 exports.connect = dbName => {
-  mongoose.connect(`mongodb://localhost/${dbName}`, { useNewUrlParser: true })
+  mongoose.connect(
+    `mongodb://hoseinNorouzi:wfTN-2Eb4iNKMGW@cluster0-shard-00-00-2dpuf.mongodb.net:27017,cluster0-shard-00-01-2dpuf.mongodb.net:27017,cluster0-shard-00-02-2dpuf.mongodb.net:27017/${dbName}?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true`,
+    { useNewUrlParser: true },
+  )
 
   const db = mongoose.connection
-  db.on('error', console.error.bind(console, 'Connection error:'))
+  db.on('error', () => console.log('can not connect to mongo db'))
   db.once('open', () => console.log(`Connected to ( ${dbName} ) database!`))
 }
 
@@ -40,4 +43,4 @@ exports.editForm = ({ formId, answers, name }) =>
 exports.editFormFileName = (formId, fileName) =>
   models.Form.updateOne({ _id: formId }, { $set: { fileName } })
 
-exports.getForms = () => models.Form.find().select('name _id')
+exports.getForms = () => models.Form.find({}).select('name _id')
