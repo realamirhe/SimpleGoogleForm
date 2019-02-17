@@ -5,8 +5,8 @@ import { AwesomeButtonProgress } from 'react-awesome-button'
 // style
 import 'react-awesome-button/dist/styles.css'
 
-/* Animated Button */
-const AnimatedButton = ({ size, loadingLabel, resultLabel, text, onclick }) => (
+/* Progress Button */
+const ProgressButton = ({ size, loadingLabel, resultLabel, text, onclick }) => (
   <AwesomeButtonProgress
     type="primary"
     size={size}
@@ -19,18 +19,18 @@ const AnimatedButton = ({ size, loadingLabel, resultLabel, text, onclick }) => (
   </AwesomeButtonProgress>
 )
 
-AnimatedButton.propTypes = {
+ProgressButton.propTypes = {
   size: PropTypes.oneOf(['small', 'medium']),
   loadingLabel: PropTypes.string,
   resultLabel: PropTypes.string,
   text: PropTypes.string,
   onclick: PropTypes.func,
 }
-AnimatedButton.defaultProps = {
+ProgressButton.defaultProps = {
   size: 'medium',
   loadingLabel: 'waiting ...',
   resultLabel: 'Success',
   text: '',
   onclick: Function.prototype,
 }
-export default AnimatedButton
+export default ProgressButton
