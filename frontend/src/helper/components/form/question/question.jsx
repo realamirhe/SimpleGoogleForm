@@ -27,7 +27,7 @@ const Question = ({ initialValue, label, changeAnswer }) => (
 
 Question.propTypes = {
   label: PropTypes.number.isRequired,
-  initialValue: PropTypes.oneOf([PropTypes.number, PropTypes.string, null]),
+  initialValue: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 }
 
 export default Question

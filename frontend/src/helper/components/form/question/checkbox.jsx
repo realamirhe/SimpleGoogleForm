@@ -20,7 +20,8 @@ const Checkbox = ({ isChecked, innerText, onClick }) => (
 Checkbox.propTypes = {
   onClick: PropTypes.func.isRequired,
   isChecked: PropTypes.bool.isRequired,
-  innerText: PropTypes.oneOf([PropTypes.number, PropTypes.string, null])
+
+  innerText: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
     .isRequired,
 }
 
