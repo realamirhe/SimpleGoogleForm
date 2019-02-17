@@ -2,7 +2,10 @@ const mongoose = require('mongoose')
 const models = require('./databaseModel')
 
 exports.connect = dbName => {
-  mongoose.connect(`mongodb://localhost/${dbName}`, { useNewUrlParser: true })
+  mongoose.connect(
+    `mongodb+srv://hoseinNorouzi:wfTN-2Eb4iNKMGW@cluster0-2dpuf.mongodb.net/${dbName}?retryWrites=true`,
+    { useNewUrlParser: true },
+  )
 
   const db = mongoose.connection
   db.on('error', console.error.bind(console, 'Connection error:'))
