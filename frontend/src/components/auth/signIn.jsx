@@ -9,7 +9,6 @@ import Fab from '@material-ui/core/Fab'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Face from '@material-ui/icons/Face'
-import Email from '@material-ui/icons/Email'
 
 const styles = theme => ({
   root: {
@@ -22,8 +21,8 @@ const styles = theme => ({
     margin: theme.spacing.unit,
   },
   icon: {
-    cursor: 'pointer'
-  }
+    cursor: 'pointer',
+  },
 })
 
 class SignIn extends Component {
@@ -43,7 +42,7 @@ class SignIn extends Component {
 
   render() {
     const { classes } = this.props
-    const { username, email, password, showPassword } = this.state
+    const { username, password, showPassword } = this.state
 
     return (
       <div className={classes.root}>
