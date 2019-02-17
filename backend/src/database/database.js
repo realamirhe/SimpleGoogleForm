@@ -40,4 +40,4 @@ exports.editForm = ({ formId, answers, name }) =>
 exports.editFormFileName = (formId, fileName) =>
   models.Form.updateOne({ _id: formId }, { $set: { fileName } })
 
-exports.getForms = () => models.Form.find().select('name _id')
+exports.getForms = () => models.Form.find({}).select('name _id')

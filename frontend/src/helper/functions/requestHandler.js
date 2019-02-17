@@ -8,7 +8,7 @@ const getForms = () =>
   request
     .get(config.server + '/getForms')
     .set('Access-Control-Allow-Origin', '*')
-    .then(res => res.body) // array of {formName, fromId}
+    .then(res => res.body) // {result : [{_id, name}, ....]}
 
 const signIn = (username, password) =>
   request
@@ -41,6 +41,7 @@ const editForm = formData =>
     .then(console.log)
 
 // user panel #######################################
+
 const userGetForm = formId =>
   request
     .get(config.server + '/userGetForm')
