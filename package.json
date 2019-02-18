@@ -1,4 +1,7 @@
 {
   "name": "simple-google-form",
-  "private": true
+  "private": true,
+  "scripts": {
+    "start": "nodemon backend/src/main.js"
+  }
 }
