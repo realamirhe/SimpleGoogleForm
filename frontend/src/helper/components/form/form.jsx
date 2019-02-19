@@ -38,7 +38,7 @@ const styles = {
 /* Form */
 const Form = ({
   onFileUpload,
-  disableUpload,
+  disableUpload, // true only in normal user
   formName,
   questions,
   openSnackBar,

@@ -22,7 +22,7 @@ const adminGetForm = formId =>
     .get(config.server + '/adminGetForm')
     .set('Access-Control-Allow-Origin', '*')
     .query({ formId })
-    .then(res => res.body) // { name, questionsNumber }
+    .then(res => res.body) // { name, answers, fileName }
 
 const makeForm = formData =>
   // ({name, answers, ...file})
