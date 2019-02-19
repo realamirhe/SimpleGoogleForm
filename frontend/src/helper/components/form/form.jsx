@@ -7,7 +7,7 @@ import { update, map, always, range, any, isNil } from 'ramda'
 // component
 import Pack from './pack'
 import { Button } from './../buttons'
-
+import Snackbar from '../snackBar'
 // import { getForm } from '../../helper/functions/requestHandler'
 import { Map, Block } from '../../functions/ramdaHelper'
 // assets
@@ -43,10 +43,14 @@ class Form extends Component {
       questionCount: props.initialQuestionCount,
       questions: props.initialQuestions,
       formName: props.initialFormName,
+
+      isSnackBarOpen: false,
     }
 
     this.changeAnswer = this.changeAnswer.bind(this)
     this.sendForm = this.sendForm.bind(this)
+
+    this.snackBarHandler = this.snackBarHandler.bind(this)
   }
 
   componentDidMount() {
@@ -55,33 +59,37 @@ class Form extends Component {
     // getForm(formId).then(this.initialization)
   }
 
-  sendForm() {
-    const { questions } = this.state
-    const { admin } = this.props
-    if (admin && any(isNil, questions)) console.log('has null')
-    // TODO: show snackbar error componet
-    else console.log('okay')
-    //TODO: send data back to form itself
+  // snackBar
+  snackBarHandler(open = false) {
+    if (open) this.setState({ isSnackBarOpen: open })
+    else this.setState({ isSnackBarOpen: open })
   }
-
+  // Form
+  initialization({ questionCount, formName }) {
+    const questions = map(always(null), range(0, questionCount))
+    this.setState({ questions, questionCount, formName })
+  }
   changeAnswer(index) {
     const { disableSound } = this.props
     return newValue => type => () => {
       if (!disableSound && type === FILL) pencilPlayer.play()
       else if (!disableSound && type === REMOVE) eraserPlayer.play()
+      const answer = type === REMOVE ? null : newValue
       this.setState(({ questions }) => ({
-        questions: update(index, newValue, questions),
+        questions: update(index, answer, questions),
       }))
     }
   }
-
-  initialization({ questionCount, formName }) {
-    const questions = map(always(null), range(0, questionCount))
-    this.setState({ questions, questionCount, formName })
+  sendForm() {
+    const { questions } = this.state
+    const { admin } = this.props
+    if (admin && any(isNil, questions)) this.snackBarHandler(true)
+    else console.log('okay')
+    //TODO: send data back to form itself
   }
 
   render() {
-    const { questions } = this.state
+    const { questions, isSnackBarOpen } = this.state
     const { classes } = this.props
     return (
       <Paper className={classes.root} elevation={1}>
@@ -112,6 +120,12 @@ class Form extends Component {
             onClick={this.uploadAnswerPdf}
           />
         </span>
+        <Snackbar
+          open={isSnackBarOpen}
+          variant="error"
+          message="You must answer all question"
+          onClose={() => this.snackBarHandler(false)}
+        />
       </Paper>
     )
   }
