@@ -72,18 +72,19 @@ class AdminForm extends Component {
       return
     }
     if (this.editMode) {
-      editForm({
-        formId,
-        name: formName,
-        answers: questions,
-        file: selectedFile,
-      })
+      console.log('selectedFile', selectedFile)
+      const formData = new FormData()
+      formData.append('formId', formId)
+      formData.append('name', formName)
+      formData.append('answers', JSON.stringify(questions))
+      formData.append('pdf', selectedFile)
+      editForm(formData)
     } else {
-      makeForm({
-        name: formName,
-        answers: selectedFile,
-        file: selectedFile,
-      })
+      const formData = new FormData()
+      formData.append('name', formName)
+      formData.append('answers', JSON.stringify(questions))
+      formData.append('pdf', selectedFile)
+      makeForm(formData)
     }
   }
 
