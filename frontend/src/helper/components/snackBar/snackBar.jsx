@@ -42,7 +42,15 @@ const styles = theme => ({
 })
 
 const SnackBar = props => {
-  const { classes, open, variant, className, onClose, message } = props
+  const {
+    classes,
+    open,
+    variant,
+    className,
+    onClose,
+    message,
+    autoHideDuration,
+  } = props
   const Icon = variantIcon[variant]
   return (
     <MuiSnackBar
@@ -51,7 +59,7 @@ const SnackBar = props => {
         horizontal: 'left',
       }}
       open={open}
-      autoHideDuration={2000}
+      autoHideDuration={autoHideDuration}
       onClose={onClose}
     >
       <SnackContent
@@ -76,5 +84,14 @@ const SnackBar = props => {
       />
     </MuiSnackBar>
   )
+}
+
+SnackBar.propTypes = {
+  autoHideDuration: PropTypes.number,
+  variant: PropTypes.string,
+}
+SnackBar.defaultProps = {
+  autoHideDuration: 2000,
+  variant: 'error',
 }
 export default withStyles(styles)(SnackBar)

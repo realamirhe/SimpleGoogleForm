@@ -1,60 +1,14 @@
 import React from 'react'
 // Component
-// import FormMaker from './components/users/admin/formInfo'
-import Form from './helper/components/form'
+import LinkPreview from './helper/components/linkPreview'
 // style
 import './App.scss'
 
 /* App */
 const App = props => (
   <div>
-    <Form
-      disableSound
-      admin
-      initialQuestionCount={35}
-      initialQuestions={[
-        2,
-        2,
-        2,
-        2,
-        null,
-        4,
-        4,
-        3,
-        null,
-        1,
-        2,
-        2,
-        2,
-        2,
-        3,
-        2,
-        2,
-        2,
-        2,
-        null,
-        4,
-        4,
-        3,
-        null,
-        1,
-        2,
-        2,
-        2,
-        2,
-        3,
-        null,
-        null,
-        null,
-        null,
-        null,
-      ]}
-      initialFormName="cost(nnt)"
-    />
+    <LinkPreview link="ahttps://www.google.com/search?q=copy+text+from+text+to+clipboard&rlz=1C1GCEA_enIR809IR809&oq=copy+text+from+text+to+clipboard&aqs=chrome..69i57.25885j0j4&sourceid=chrome&ie=UTF-8" />
   </div>
-  // <Router>
-  // <Route authenticateURL component={signIn}/>
-  // </Router>
 )
 
 export default App
