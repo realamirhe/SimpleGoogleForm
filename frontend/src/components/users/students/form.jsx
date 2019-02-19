@@ -86,7 +86,9 @@ class StudentForm extends Component {
         formName={formName}
         questions={questions}
         openSnackBar={isSnackBarOpen}
-        onFileUpload={this.handleSelectedFile}
+        sendForm={this.send}
+        snackBarHandler={this.snackBarHandler}
+        changeAnswer={this.changeAnswer}
       />
     )
   }
