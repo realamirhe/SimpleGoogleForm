@@ -29,8 +29,6 @@ class AdminForm extends Component {
       isSnackBarOpen: false,
     }
 
-    this.editMode = !!props.formId
-
     this.send = this.send.bind(this)
     this.changeAnswer = this.changeAnswer.bind(this)
     this.snackBarHandler = this.snackBarHandler.bind(this)
@@ -68,11 +66,12 @@ class AdminForm extends Component {
 
   send() {
     const { formName, formId, questions, selectedFile } = this.state
+    const { editMode } = this.props
     if (R.any(R.isNil, questions)) {
       this.snackBarHandler(true)
       return
     }
-    if (this.editMode) {
+    if (editMode) {
       editForm({
         formId,
         name: formName,
