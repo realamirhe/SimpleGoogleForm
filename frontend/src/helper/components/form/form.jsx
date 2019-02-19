@@ -104,28 +104,3 @@ Form.defaultProps = {
 }
 
 export default withStyles(styles)(Form)
-
-// // Form
-// initialization({ questionCount, formName }) {
-//   const questions = map(always(null), range(0, questionCount))
-//   this.setState({ questions, questionCount, formName })
-// }
-// changeAnswer(index) {
-//   const { disableSound } = this.props
-//   return newValue => type => () => {
-//     if (!disableSound && type === FILL) pencilPlayer.play()
-//     else if (!disableSound && type === REMOVE) eraserPlayer.play()
-//     const answer = type === REMOVE ? null : newValue
-//     this.setState(({ questions }) => ({
-//       questions: update(index, answer, questions),
-//     }))
-//   }
-// }
-// // assets
-// import Pencil from '../../../assets/sound_fx/pencil.mp3'
-// import Eraser from '../../../assets/sound_fx/eraser.mp3'
-// // CONST
-// import { FILL, REMOVE, ADMIN } from '../../functions/constants'
-// // instance helpers
-// const pencilPlayer = new Audio(Pencil)
-// const eraserPlayer = new Audio(Eraser)
