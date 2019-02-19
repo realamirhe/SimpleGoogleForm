@@ -1,23 +1,16 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 // Third-party-packages
 import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
-import { update, map, always, range, any, isNil } from 'ramda'
+import Typography from '@material-ui/core/Typography'
 // component
 import Pack from './pack'
-import { Button } from './../buttons'
-import Snackbar from '../snackBar'
-// import { getForm } from '../../helper/functions/requestHandler'
+import { Button, UploadButton } from './../buttons'
+import SnackBar from '../snackBar'
+
 import { Map, Block } from '../../functions/ramdaHelper'
-// assets
-import Pencil from '../../../assets/sound_fx/pencil.mp3'
-import Eraser from '../../../assets/sound_fx/eraser.mp3'
-// CONST
-import { FILL, REMOVE, ADMIN } from '../../functions/constants'
-// instance helpers
-const pencilPlayer = new Audio(Pencil)
-const eraserPlayer = new Audio(Eraser)
+
 // style
 const styles = {
   root: {
@@ -33,120 +26,100 @@ const styles = {
     justifyContent: 'center',
     boxSizing: 'border-box',
   },
+
+  buttons: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 }
 
 /* Form */
-class Form extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      questionCount: props.initialQuestionCount,
-      questions: props.initialQuestions,
-      formName: props.initialFormName,
+const Form = ({
+  onFileUpload,
+  disableUpload,
+  formName,
+  questions,
+  openSnackBar,
+  classes,
+}) => {
+  return (
+    <Paper className={classes.root} elevation={1}>
+      <Typography>{formName}</Typography>
 
-      isSnackBarOpen: false,
-    }
+      <div className={classes.warper}>
+        {Map(
+          (blockQuestion, index) => (
+            <Pack
+              index={10 * index}
+              blockQuestion={blockQuestion}
+              changeAnswer={this.changeAnswer}
+              key={10 * index}
+            />
+          ),
+          Block(10, questions),
+        )}
+      </div>
 
-    this.changeAnswer = this.changeAnswer.bind(this)
-    this.sendForm = this.sendForm.bind(this)
+      <span className={classes.buttons}>
+        {!disableUpload && <UploadButton onChange={onFileUpload} />}
+        <Button type="secondary" text="Send" onClick={this.sendForm} />
+      </span>
 
-    this.snackBarHandler = this.snackBarHandler.bind(this)
-  }
-
-  componentDidMount() {
-    // const { admin, fromId } = this.props
-    // if (!admin && formId)
-    // getForm(formId).then(this.initialization)
-  }
-
-  // snackBar
-  snackBarHandler(open = false) {
-    if (open) this.setState({ isSnackBarOpen: open })
-    else this.setState({ isSnackBarOpen: open })
-  }
-  // Form
-  initialization({ questionCount, formName }) {
-    const questions = map(always(null), range(0, questionCount))
-    this.setState({ questions, questionCount, formName })
-  }
-  changeAnswer(index) {
-    const { disableSound } = this.props
-    return newValue => type => () => {
-      if (!disableSound && type === FILL) pencilPlayer.play()
-      else if (!disableSound && type === REMOVE) eraserPlayer.play()
-      const answer = type === REMOVE ? null : newValue
-      this.setState(({ questions }) => ({
-        questions: update(index, answer, questions),
-      }))
-    }
-  }
-  sendForm() {
-    const { questions } = this.state
-    const { admin } = this.props
-    if (admin && any(isNil, questions)) this.snackBarHandler(true)
-    else console.log('okay')
-    //TODO: send data back to form itself
-  }
-
-  render() {
-    const { questions, isSnackBarOpen } = this.state
-    const { classes } = this.props
-    return (
-      <Paper className={classes.root} elevation={1}>
-        <div className={classes.warper}>
-          {Map(
-            (blockQuestion, index) => (
-              <Pack
-                index={10 * index}
-                blockQuestion={blockQuestion}
-                changeAnswer={this.changeAnswer}
-                key={10 * index}
-              />
-            ),
-            Block(10, questions),
-          )}
-        </div>
-        <span
-          style={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <Button type="secondary" text="Send" onClick={this.sendForm} />
-          <Button
-            type="secondary"
-            text="upload"
-            onClick={this.uploadAnswerPdf}
-          />
-        </span>
-        <Snackbar
-          open={isSnackBarOpen}
-          variant="error"
-          message="You must answer all question"
-          onClose={() => this.snackBarHandler(false)}
-        />
-      </Paper>
-    )
-  }
+      <SnackBar
+        open={openSnackBar}
+        variant="error"
+        message="You must answer all question"
+        onClose={() => this.snackBarHandler(false)}
+      />
+    </Paper>
+  )
 }
 
 Form.propTypes = {
-  disableSound: PropTypes.bool,
-  admin: PropTypes.bool,
+  onFileUpload: PropTypes.func,
+  disableUpload: PropTypes.bool,
 
-  initialQuestionCount: PropTypes.number,
-  initialQuestions: PropTypes.arrayOf(PropTypes.number),
-  initialFormName: PropTypes.string,
+  openSnackBar: PropTypes.bool,
+
+  questions: PropTypes.arrayOf(PropTypes.number),
+  formName: PropTypes.string,
 }
 
 Form.defaultProps = {
-  disableSound: false,
-  admin: false,
+  onFileUpload: Function.prototype,
+  disableUpload: false,
 
-  initialQuestionCount: 0,
-  initialQuestions: [],
-  initialFormName: '',
+  openSnackBar: false,
+
+  questions: [],
+  formName: 'LOADING ...',
 }
 
 export default withStyles(styles)(Form)
+
+// // Form
+// initialization({ questionCount, formName }) {
+//   const questions = map(always(null), range(0, questionCount))
+//   this.setState({ questions, questionCount, formName })
+// }
+// changeAnswer(index) {
+//   const { disableSound } = this.props
+//   return newValue => type => () => {
+//     if (!disableSound && type === FILL) pencilPlayer.play()
+//     else if (!disableSound && type === REMOVE) eraserPlayer.play()
+//     const answer = type === REMOVE ? null : newValue
+//     this.setState(({ questions }) => ({
+//       questions: update(index, answer, questions),
+//     }))
+//   }
+// }
+// // assets
+// import Pencil from '../../../assets/sound_fx/pencil.mp3'
+// import Eraser from '../../../assets/sound_fx/eraser.mp3'
+// // CONST
+// import { FILL, REMOVE, ADMIN } from '../../functions/constants'
+// // instance helpers
+// const pencilPlayer = new Audio(Pencil)
+// const eraserPlayer = new Audio(Eraser)
