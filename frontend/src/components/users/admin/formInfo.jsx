@@ -21,9 +21,9 @@ const styles = {
 /* Admin Form */
 const FormInfo = ({ classes, onChangeInput, onChangeCount, onSubmit }) => (
   <Paper className={classes.root}>
-    <Input placeholder="Form Name" onChange={Function.prototype} />
-    <Count value={0} onChange={Function.prototype} />
-    <Button text="Create Form" />
+    <Input placeholder="Form Name" onChange={onChangeInput} />
+    <Count value={0} onChange={onChangeCount} />
+    <Button text="Create Form" onClick={onSubmit} />
   </Paper>
 )
 
