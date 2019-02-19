@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // third-party-packages
 import * as R from 'ramda'
+import Dialog from '@material-ui/core/Dialog'
 // helpers
 import {
   userGetForm,
@@ -10,9 +11,12 @@ import {
 import timingUtil from './timing'
 // component
 import Form from '../../../helper/components/form'
+import Icon from '../../../helper/components/Icon'
 // // assets
 import Pencil from '../../../assets/sound_fx/Pencil.mp3'
 import Eraser from '../../../assets/sound_fx/eraser.mp3'
+import InsertChart from '@material-ui/icons/InsertChart'
+
 // // CONST
 import { FILL, REMOVE } from '../../functions/constants'
 // // instance helpers
@@ -30,6 +34,7 @@ class StudentForm extends Component {
       hasTestResult: false,
       formName: '',
       testInfo: {},
+      isDialogOpen: false,
     }
     this.timer = timingUtil()
   }
@@ -68,9 +73,14 @@ class StudentForm extends Component {
           hasTestResult: true,
           testInfo: { rank, percentage },
           formName,
+          isDialogOpen: true,
         })
       },
     )
+  }
+
+  handleDialog(type) {
+    this.setState({ isDialogOpen: type === 'OPEN' })
   }
 
   // snackBar
@@ -80,16 +90,41 @@ class StudentForm extends Component {
   }
 
   render() {
-    const { formName, questions, isSnackBarOpen } = this.state
+    const {
+      formName,
+      questions,
+      isSnackBarOpen,
+      hasTestResult,
+      testInfo,
+      isDialogOpen,
+    } = this.state
+
+    console.log('testInfo', testInfo)
     return (
-      <Form
-        formName={formName}
-        questions={questions}
-        openSnackBar={isSnackBarOpen}
-        sendForm={this.send}
-        snackBarHandler={this.snackBarHandler}
-        changeAnswer={this.changeAnswer}
-      />
+      <div>
+        <Form
+          formName={formName}
+          questions={questions}
+          openSnackBar={isSnackBarOpen}
+          sendForm={this.send}
+          snackBarHandler={this.snackBarHandler}
+          changeAnswer={this.changeAnswer}
+        />
+        {hasTestResult && (
+          <div>
+            <Icon
+              icon={<InsertChart />}
+              onClick={() => this.handleDialog('OPEN')}
+            />
+            <Dialog
+              open={isDialogOpen}
+              handleClose={() => this.handleDialog('CLOSE')}
+              formName={formName}
+              testInfo={testInfo}
+            />
+          </div>
+        )}
+      </div>
     )
   }
 }
