@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // third-party-packages
-import { update, map, always, range, any, isNil } from 'ramda'
+import * as R from 'ramda'
 // helpers
 import {
   editForm,
@@ -18,7 +18,7 @@ class AdminForm extends Component {
     this.state = {
       // form initial data
       questionCount: props.initialQuestionCount,
-      questions: null,
+      questions: [],
       formId: props.formId,
       formName: props.formName,
 
@@ -31,14 +31,16 @@ class AdminForm extends Component {
 
     this.editMode = !!props.formId
 
+    this.send = this.send.bind(this)
     this.changeAnswer = this.changeAnswer.bind(this)
-    this.sendForm = this.sendForm.bind(this)
     this.snackBarHandler = this.snackBarHandler.bind(this)
     this.handleSelectedFile = this.handleSelectedFile.bind(this)
   }
 
   componentDidMount() {
     const { formId, questionCount } = this.state
+    console.log({ questionCount })
+
     if (this.editMode) {
       adminGetForm(formId).then(({ name, answers, fileName }) => {
         this.setState({
@@ -49,27 +51,24 @@ class AdminForm extends Component {
         })
       })
     } else {
-      this.setState({ questions: map(always(null), range(0, questionCount)) })
+      this.setState({
+        questions: R.map(R.always(null), R.range(0, questionCount)),
+      })
     }
   }
 
-  // Form
-  initialization({ questionCount, formName }) {
-    const questions = map(always(null), range(0, questionCount))
-    this.setState({ questions, questionCount, formName })
-  }
   changeAnswer(index) {
     return newValue => type => () => {
       const answer = type === REMOVE ? null : newValue
       this.setState(({ questions }) => ({
-        questions: update(index, answer, questions),
+        questions: R.update(index, answer, questions),
       }))
     }
   }
 
   send() {
     const { formName, formId, questions, selectedFile } = this.state
-    if (any(isNil, questions)) {
+    if (R.any(R.isNil, questions)) {
       this.snackBarHandler(true)
       return
     }
@@ -110,6 +109,9 @@ class AdminForm extends Component {
         formName={formName}
         questions={questions}
         openSnackBar={isSnackBarOpen}
+        sendForm={this.send}
+        snackBarHandler={this.snackBarHandler}
+        changeAnswer={this.changeAnswer}
         onFileUpload={this.handleSelectedFile}
       />
     )

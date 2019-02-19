@@ -22,9 +22,9 @@ const signIn = (username, password) =>
 
 const adminGetForm = formId =>
   request
-    .get(config.server + '/adminGetForm')
+    .post(config.server + '/adminGetForm')
     .set('Access-Control-Allow-Origin', '*')
-    .query({ formId })
+    .send({ formId })
     .then(R.prop('body')) // { name, questionsNumber }
 
 const makeForm = formData =>
@@ -47,15 +47,15 @@ const editForm = formData =>
 
 const userGetForm = formId =>
   request
-    .get(config.server + '/userGetForm')
+    .post(config.server + '/userGetForm')
     .set('Access-Control-Allow-Origin', '*')
-    .query({ formId })
+    .send({ formId })
     .then(R.prop('body')) // { name, questionsNumber }
 
 const getTestResult = data =>
   // ({formId, userId, answers, computeRanking})
   request
-    .get(config.server + '/getTestResult')
+    .post(config.server + '/getTestResult')
     .set('Access-Control-Allow-Origin', '*')
     .send(data)
     .then(R.prop('body')) // {rank, persentage, fileName}  ======> rank perhapse is null

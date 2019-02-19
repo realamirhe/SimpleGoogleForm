@@ -43,6 +43,9 @@ const Form = ({
   questions,
   openSnackBar,
   classes,
+  sendForm,
+  changeAnswer,
+  snackBarHandler,
 }) => {
   return (
     <Paper className={classes.root} elevation={1}>
@@ -54,7 +57,7 @@ const Form = ({
             <Pack
               index={10 * index}
               blockQuestion={blockQuestion}
-              changeAnswer={this.changeAnswer}
+              changeAnswer={changeAnswer}
               key={10 * index}
             />
           ),
@@ -64,14 +67,14 @@ const Form = ({
 
       <span className={classes.buttons}>
         {!disableUpload && <UploadButton onChange={onFileUpload} />}
-        <Button type="secondary" text="Send" onClick={this.sendForm} />
+        <Button type="secondary" text="Send" onClick={sendForm} />
       </span>
 
       <SnackBar
         open={openSnackBar}
         variant="error"
         message="You must answer all question"
-        onClose={() => this.snackBarHandler(false)}
+        onClose={() => snackBarHandler(false)}
       />
     </Paper>
   )
@@ -80,6 +83,9 @@ const Form = ({
 Form.propTypes = {
   onFileUpload: PropTypes.func,
   disableUpload: PropTypes.bool,
+  sendForm: PropTypes.func.isRequired,
+  changeAnswer: PropTypes.func.isRequired,
+  snackBarHandler: PropTypes.func.isRequired,
 
   openSnackBar: PropTypes.bool,
 
