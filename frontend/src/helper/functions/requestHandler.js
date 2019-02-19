@@ -12,10 +12,11 @@ const getForms = () =>
 
 const signIn = (username, password) =>
   request
-    .post(config.server + '/signin')
+    .get(config.server + '/signin')
     .set('Access-Control-Allow-Origin', '*')
     .send({ username, password })
-    .then(res => res.body) // ({correct})
+    .then(res => res.body)
+// ({correct})
 
 const adminGetForm = formId =>
   request

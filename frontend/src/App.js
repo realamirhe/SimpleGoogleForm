@@ -1,15 +1,41 @@
-import React from 'react'
+import React, { Component } from 'react'
+import * as R from 'ramda'
 // Component
-import FormMaker from './components/users/admin/formMaker'
+import AdminPage from './components/forms/list/list'
+import { Router, Redirect } from '@reach/router'
+import SignIn from './components/auth/signIn'
+// import NotFound from ''
+
+// helper
+import { load } from './helper/functions/localStorage'
 // style
 import './App.scss'
 
-/* App */
-const App = props => (
-  <FormMaker />
-  // <Router>
-  // <Route authenticateURL component={signIn}/>
-  // </Router>
-)
+class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isAdminLoggedIn: R.prop('isAdminLoggedIn', load('state')),
+    }
+
+    this.setIsAdminLoggedIn = this.setIsAdminLoggedIn.bind
+  }
+  setIsAdminLoggedIn = value => this.setState({ isAdminLoggedIn: value })
+
+  render() {
+    const { isAdminLoggedIn, setIsAdminLoggedIn } = this.state
+    return (
+      <Router>
+        <AdminPage
+          path="/adminPage"
+          forms={[]}
+          isAdminLoggedIn={isAdminLoggedIn}
+        />
+        <SignIn path="/" setIsAdminLoggedIn={setIsAdminLoggedIn} />
+        {/* <NotFound  default /> */}
+      </Router>
+    )
+  }
+}
 
 export default App

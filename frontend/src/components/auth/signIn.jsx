@@ -10,6 +10,9 @@ import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Face from '@material-ui/icons/Face'
 
+// helper
+import { signIn } from '../../helper/functions/requestHandler'
+
 const styles = theme => ({
   root: {
     width: 500,
@@ -93,6 +96,7 @@ class SignIn extends Component {
           color="primary"
           aria-label="Add"
           className={classes.margin}
+          onClick={() => signIn(username, password).then(console.log)}
         >
           Sign In
         </Fab>

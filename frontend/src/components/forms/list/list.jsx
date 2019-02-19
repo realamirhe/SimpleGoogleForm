@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { navigate } from '@reach/router'
 // third-party-packages
 import { map } from 'ramda'
 // assets
@@ -12,22 +13,27 @@ import './style.scss'
 
 // TODO: onClick Add Icon
 /* Mini Form List  */
-const MiniFormList = ({ forms }) => {
+const MiniFormList = ({ forms, isAdminLoggedIn }) => {
+  if (!isAdminLoggedIn) setTimeout(navigate, 0, '/')
   return (
-    <div className="mini-form__list">
-      <Icon
-        color="primary"
-        icon={<NoteAdd style={{ width: 30, height: 30 }} />}
-        ariaLabel="note-add"
-        size="large"
-      />
-      {map(
-        ({ formName, formId }) => (
-          <MiniFormItem formName={formName} formId={formId} />
-        ),
-        forms,
+    <Fragment>
+      {isAdminLoggedIn && (
+        <div className="mini-form__list">
+          <Icon
+            color="primary"
+            icon={<NoteAdd style={{ width: 30, height: 30 }} />}
+            ariaLabel="note-add"
+            size="large"
+          />
+          {map(
+            ({ formName, formId }) => (
+              <MiniFormItem formName={formName} formId={formId} />
+            ),
+            forms,
+          )}
+        </div>
       )}
-    </div>
+    </Fragment>
   )
 }
 
