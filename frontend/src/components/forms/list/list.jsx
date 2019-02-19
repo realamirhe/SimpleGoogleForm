@@ -24,7 +24,7 @@ const MiniFormList = ({ forms, isAdminLoggedIn }) => {
             icon={<NoteAdd style={{ width: 30, height: 30 }} />}
             ariaLabel="note-add"
             size="large"
-            onClick={() => navigate('/adminPage/createForm')}
+            onClick={() => navigate('/adminPage/createFormInfo')}
           />
           {map(
             ({ formName, formId }) => (

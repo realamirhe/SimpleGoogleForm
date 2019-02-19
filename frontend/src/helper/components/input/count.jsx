@@ -26,11 +26,12 @@ const Count = ({ classes, value, onChange }) => (
     <InputBase
       label="Number"
       fullWidth
-      onChange={onchange}
+      onChange={onChange}
       type="number"
       placeholder="0"
       className={classes.textField}
       margin="dense"
+      value={value}
     />
   </Paper>
 )
