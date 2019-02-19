@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import * as R from 'ramda'
 // Component
 import AdminPage from './components/forms/list/list'
-import { Router, Redirect } from '@reach/router'
+import { Router } from '@reach/router'
 import SignIn from './components/auth/signIn'
 // import NotFound from ''
 
