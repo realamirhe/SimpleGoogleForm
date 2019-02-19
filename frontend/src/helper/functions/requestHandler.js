@@ -1,4 +1,6 @@
+// modules
 import request from 'superagent'
+import * as R from 'ramda'
 // Config
 import config from '../../setup/config'
 
@@ -8,21 +10,22 @@ const getForms = () =>
   request
     .get(config.server + '/getForms')
     .set('Access-Control-Allow-Origin', '*')
-    .then(res => res.body) // {result : [{_id, name}, ....]}
+    .then(R.prop('body')) // {result : [{_id, name}, ....]}
 
 const signIn = (username, password) =>
   request
     .post(config.server + '/signin')
-    .set('Access-Control-Allow-Origin', '*')
     .send({ username, password })
-    .then(res => res.body) // ({correct})
+    .set('Access-Control-Allow-Origin', '*')
+    .then(R.path(['body', 'correct']))
+// ({correct})
 
 const adminGetForm = formId =>
   request
     .get(config.server + '/adminGetForm')
     .set('Access-Control-Allow-Origin', '*')
     .query({ formId })
-    .then(res => res.body) // { name, answers, fileName }
+    .then(R.prop('body')) // { name, questionsNumber }
 
 const makeForm = formData =>
   // ({name, answers, ...file})
@@ -30,7 +33,7 @@ const makeForm = formData =>
     .post(config.server + '/addNewForm')
     .set('Access-Control-Allow-Origin', '*')
     .send(formData)
-    .then(res => res.body) // ({id})
+    .then(R.prop('body')) // ({id})
 
 const editForm = formData =>
   // ({fileId, name, answers, ...file})
@@ -47,7 +50,7 @@ const userGetForm = formId =>
     .get(config.server + '/userGetForm')
     .set('Access-Control-Allow-Origin', '*')
     .query({ formId })
-    .then(res => res.body) // { name, questionsNumber }
+    .then(R.prop('body')) // { name, questionsNumber }
 
 const getTestResult = data =>
   // ({formId, userId, answers, computeRanking})
@@ -55,7 +58,7 @@ const getTestResult = data =>
     .get(config.server + '/getTestResult')
     .set('Access-Control-Allow-Origin', '*')
     .send(data)
-    .then(res => res.body) // {rank, persentage, fileName}  ======> rank perhapse is null
+    .then(R.prop('body')) // {rank, persentage, fileName}  ======> rank perhapse is null
 
 export {
   userGetForm,

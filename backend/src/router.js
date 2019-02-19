@@ -118,11 +118,14 @@ router.get('/userGetForm', ({ body: { formId } }, res) =>
     .catch(err => res.status(500).send(err)),
 )
 
-router.get('/getForms', (_, res) =>
-  database
-    .getForms()
-    .then(result => res.send({ result }))
-    .catch(err => res.status(500).send(err)),
+router.get(
+  '/getForms',
+  (_, res) =>
+    console.log('hi') ||
+    database
+      .getForms()
+      .then(result => res.send({ result }))
+      .catch(err => res.status(500).send(err)),
 )
 
 router.get('/adminGetForm', ({ body: { formId } }, res) =>

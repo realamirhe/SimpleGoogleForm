@@ -1,14 +1,21 @@
-// Retrieve your data from localStorage
+// modules
+import { encrypt, decrypt } from 'crypto-js/aes'
+import Utf8 from 'crypto-js/enc-utf8'
+
+const SECRET = 'ya ali 110'
+
 // Store data.
-const save = userInfo => {
-  localStorage.setItem('userInfo', JSON.stringify(userInfo))
-  localStorage.setItem('time', new Date().getTime())
+const save = (key, value) => {
+  localStorage.setItem(key, encrypt(JSON.stringify(value), SECRET).toString())
 }
 
 // load data
-const load = key => JSON.parse(localStorage.getItem(key))
+const load = key => {
+  try {
+    return JSON.parse(decrypt(localStorage.getItem(key), SECRET).toString(Utf8))
+  } catch {
+    return null
+  }
+}
 
-// should user log in again or not
-const shouldUserLogIn = () => !load('time')
-
-export { save, load, shouldUserLogIn }
+export { save, load }
