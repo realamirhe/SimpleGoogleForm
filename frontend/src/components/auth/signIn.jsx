@@ -1,6 +1,8 @@
+// moduls
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+// components
 import { withStyles } from '@material-ui/core/styles'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import TextField from '@material-ui/core/TextField'
@@ -9,9 +11,10 @@ import Fab from '@material-ui/core/Fab'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Face from '@material-ui/icons/Face'
-
+import { navigate } from '@reach/router'
 // helper
 import { signIn } from '../../helper/functions/requestHandler'
+import { save } from '../../helper/functions/localStorage'
 
 const styles = theme => ({
   root: {
@@ -44,7 +47,7 @@ class SignIn extends Component {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, setIsAdminLoggedIn } = this.props
     const { username, password, showPassword } = this.state
 
     return (
@@ -96,7 +99,14 @@ class SignIn extends Component {
           color="primary"
           aria-label="Add"
           className={classes.margin}
-          onClick={() => signIn(username, password).then(console.log)}
+          onClick={() =>
+            signIn(username, password).then(isAdminLoggedIn => {
+              save('state', { isAdminLoggedIn })
+              setIsAdminLoggedIn(isAdminLoggedIn)
+              if (isAdminLoggedIn) navigate('/adminPage')
+              // else snakbar
+            })
+          }
         >
           Sign In
         </Fab>

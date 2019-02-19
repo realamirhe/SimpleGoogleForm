@@ -18,12 +18,12 @@ class App extends Component {
       isAdminLoggedIn: R.prop('isAdminLoggedIn', load('state')),
     }
 
-    this.setIsAdminLoggedIn = this.setIsAdminLoggedIn.bind
+    this.setIsAdminLoggedIn = this.setIsAdminLoggedIn.bind(this)
   }
   setIsAdminLoggedIn = value => this.setState({ isAdminLoggedIn: value })
 
   render() {
-    const { isAdminLoggedIn, setIsAdminLoggedIn } = this.state
+    const { isAdminLoggedIn } = this.state
     return (
       <Router>
         <AdminPage
@@ -31,7 +31,7 @@ class App extends Component {
           forms={[]}
           isAdminLoggedIn={isAdminLoggedIn}
         />
-        <SignIn path="/" setIsAdminLoggedIn={setIsAdminLoggedIn} />
+        <SignIn path="/" setIsAdminLoggedIn={this.setIsAdminLoggedIn} />
         {/* <NotFound  default /> */}
       </Router>
     )
