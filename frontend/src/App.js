@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import * as R from 'ramda'
-// Component
-import AdminPage from './components/forms/list/list'
+// Components
+import AdminPage from './components/_adminPage/main'
 import { Router } from '@reach/router'
 import SignIn from './components/auth/signIn'
+
 // import NotFound from ''
 
 // helper
@@ -26,11 +27,7 @@ class App extends Component {
     const { isAdminLoggedIn } = this.state
     return (
       <Router>
-        <AdminPage
-          path="/adminPage"
-          forms={[]}
-          isAdminLoggedIn={isAdminLoggedIn}
-        />
+        <AdminPage path="/adminPage" isAdminLoggedIn={isAdminLoggedIn} />
         <SignIn path="/" setIsAdminLoggedIn={this.setIsAdminLoggedIn} />
         {/* <NotFound  default /> */}
       </Router>

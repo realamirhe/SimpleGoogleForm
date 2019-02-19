@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // third-party-packages
 import { Paper } from '@material-ui/core'
@@ -19,17 +19,40 @@ const styles = {
   },
 }
 /* Admin Form */
-const FormInfo = ({ classes, onChangeInput, onChangeCount, onSubmit }) => (
-  <Paper className={classes.root}>
-    <Input placeholder="Form Name" onChange={onChangeInput} />
-    <Count value={0} onChange={onChangeCount} />
-    <Button text="Create Form" onClick={onSubmit} />
-  </Paper>
-)
+class FormInfo extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      formName: '',
+      questionCount: 0,
+    }
+    this.onChange = this.onChange.bind(this)
+  }
+  onChange(key, value) {
+    this.setState({ [key]: value })
+  }
+
+  render() {
+    const { questionCount, formName } = this.state
+    const { classes } = this.props
+    return (
+      <Paper className={classes.root}>
+        <Input
+          placeholder="Form Name"
+          value={formName}
+          onChange={event => this.onChange('formName', event.target.value)}
+        />
+        <Count
+          value={questionCount}
+          onChange={event => this.onChange('questionCount', event.target.value)}
+        />
+        <Button text="Create Form" onClick={console.log} />
+      </Paper>
+    )
+  }
+}
 
 FormInfo.propTypes = {
-  onChangeInput: PropTypes.func.isRequired,
-  onChangeCount: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 }
 

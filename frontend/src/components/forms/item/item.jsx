@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { navigate } from '@reach/router'
 // third-party-packages
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
@@ -25,13 +26,18 @@ const styles = theme => ({
 
 // TODO: onClick={/* request to form id*/}
 /* Mini Form Item */
-const MiniFormItem = ({ classes, formName, fromId }) => {
+const MiniFormItem = ({ classes, formName, formId }) => {
   return (
     <Card className={classes.card}>
       <CardContent className={classes.content}>
         <Typography variant="subtitle1">{formName}</Typography>
       </CardContent>
-      <Icon color="secondary" icon={<Edit />} ariaLabel="Edit" />
+      <Icon
+        color="secondary"
+        icon={<Edit />}
+        ariaLabel="Edit"
+        onClick={() => navigate(`/adminPage/${formId}`)}
+      />
     </Card>
   )
 }
