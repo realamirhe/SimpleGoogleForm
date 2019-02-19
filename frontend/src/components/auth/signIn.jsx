@@ -103,7 +103,7 @@ class SignIn extends Component {
             signIn(username, password).then(isAdminLoggedIn => {
               save('state', { isAdminLoggedIn })
               setIsAdminLoggedIn(isAdminLoggedIn)
-              if (isAdminLoggedIn) navigate('/adminPage')
+              if (isAdminLoggedIn) navigate('/adminPage/forms')
               // else snakbar
             })
           }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import * as R from 'ramda'
 // Components
-import AdminPage from './components/_adminPage/main'
+import AdminPage from './components/_adminPage/adminPage'
 import { Router } from '@reach/router'
 import SignIn from './components/auth/signIn'
 
@@ -27,7 +27,7 @@ class App extends Component {
     const { isAdminLoggedIn } = this.state
     return (
       <Router>
-        <AdminPage path="/adminPage" isAdminLoggedIn={isAdminLoggedIn} />
+        <AdminPage path="/adminPage/:mode" isAdminLoggedIn={isAdminLoggedIn} />
         <SignIn path="/" setIsAdminLoggedIn={this.setIsAdminLoggedIn} />
         {/* <NotFound  default /> */}
       </Router>

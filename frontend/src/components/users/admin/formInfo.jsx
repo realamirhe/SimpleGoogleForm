@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles'
 // components
 import { Input, Count } from '../../../helper/components/input'
 import { Button } from '../../../helper/components/buttons'
+import { navigate } from '@reach/router'
 // style
 const styles = {
   root: {
@@ -24,7 +25,7 @@ class FormInfo extends Component {
     super(props)
     this.state = {
       formName: '',
-      questionCount: 0,
+      initialQuestionCount: 0,
     }
     this.onChange = this.onChange.bind(this)
   }
@@ -33,8 +34,8 @@ class FormInfo extends Component {
   }
 
   render() {
-    const { questionCount, formName } = this.state
-    const { classes } = this.props
+    const { initialQuestionCount, formName } = this.state
+    const { classes, setNewFormInfo } = this.props
     return (
       <Paper className={classes.root}>
         <Input
@@ -43,10 +44,21 @@ class FormInfo extends Component {
           onChange={event => this.onChange('formName', event.target.value)}
         />
         <Count
-          value={questionCount}
-          onChange={event => this.onChange('questionCount', event.target.value)}
+          value={initialQuestionCount}
+          onChange={event =>
+            this.onChange('initialQuestionCount', Number(event.target.value))
+          }
         />
-        <Button text="Create Form" onClick={console.log} />
+        <Button
+          text="Create Form"
+          onClick={() => {
+            setNewFormInfo({
+              formName,
+              initialQuestionCount,
+            })
+            navigate('/adminPage/createNewForm')
+          }}
+        />
       </Paper>
     )
   }

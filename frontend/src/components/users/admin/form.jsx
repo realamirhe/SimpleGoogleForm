@@ -39,7 +39,6 @@ class AdminForm extends Component {
 
   componentDidMount() {
     const { formId, questionCount } = this.state
-    console.log({ questionCount })
 
     if (this.editMode) {
       adminGetForm(formId).then(({ name, answers, fileName }) => {
