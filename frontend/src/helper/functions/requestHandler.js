@@ -25,7 +25,7 @@ const adminGetForm = formId =>
     .post(config.server + '/adminGetForm')
     .set('Access-Control-Allow-Origin', '*')
     .send({ formId })
-    .then(R.prop('body')) // { name, questionsNumber }
+    .then(R.prop('body')) // {name, answers, fileName}
 
 const makeForm = formData =>
   // ({name, answers, ...file})
@@ -60,6 +60,13 @@ const getTestResult = data =>
     .send(data)
     .then(R.prop('body')) // {rank, persentage, fileName}  ======> rank perhapse is null
 
+const downloadPdf = fileName =>
+  request
+    .get(config.server + '/downloadPdf')
+    .set('Access-Control-Allow-Origin', '*')
+    .query({ fileName })
+    .then(R.prop('body'))
+
 export {
   userGetForm,
   getTestResult,
@@ -68,4 +75,5 @@ export {
   getForms,
   adminGetForm,
   editForm,
+  downloadPdf,
 }

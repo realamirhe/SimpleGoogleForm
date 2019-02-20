@@ -41,14 +41,16 @@ class AdminForm extends Component {
     const { questionCount } = this.state
     const { editMode, formId } = this.props
     if (editMode) {
-      adminGetForm(formId).then(({ name, answers, fileName }) => {
-        this.setState({
-          question: answers,
-          formName: name,
-          solution: fileName,
-          questionCount: answers.length,
-        })
-      })
+      adminGetForm(formId).then(
+        ({ name, answers, fileName }) =>
+          console.log({ name, answers, fileName }) ||
+          this.setState({
+            questions: answers,
+            formName: name,
+            solution: fileName,
+            questionCount: answers.length,
+          }),
+      )
     } else {
       this.setState({
         questions: R.map(R.always(null), R.range(0, questionCount)),

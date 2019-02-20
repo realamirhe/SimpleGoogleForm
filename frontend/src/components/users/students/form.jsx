@@ -7,6 +7,7 @@ import Dialog from '../../../helper/components/dialog'
 import {
   userGetForm,
   getTestResult,
+  downloadPdf,
 } from '../../../helper/functions/requestHandler'
 import timingUtil from './timing'
 // component
@@ -16,6 +17,7 @@ import Icon from '../../../helper/components/Icon'
 import Pencil from '../../../assets/sound_fx/pencil.mp3'
 import Eraser from '../../../assets/sound_fx/eraser.mp3'
 import InsertChart from '@material-ui/icons/InsertChart'
+import Download from '@material-ui/icons/GetApp'
 
 // // CONST
 import { FILL, REMOVE } from '../../../helper/functions/constants'
@@ -35,6 +37,7 @@ class StudentForm extends Component {
       formName: '',
       testInfo: {},
       isDialogOpen: false,
+      fileName: '',
     }
     console.log(this.props)
     this.timer = timingUtil()
@@ -72,11 +75,11 @@ class StudentForm extends Component {
     const { formId, questions } = this.state
 
     getTestResult({ formId, answers: questions, computeRanking }).then(
-      ({ rank, percentage, formName }) => {
+      ({ rank, percentage, fileName }) => {
         this.setState({
           hasTestResult: true,
           testInfo: { rank, percentage },
-          formName,
+          fileName,
           isDialogOpen: true,
         })
       },
@@ -101,6 +104,7 @@ class StudentForm extends Component {
       hasTestResult,
       testInfo,
       isDialogOpen,
+      fileName,
     } = this.state
     return (
       <div>
@@ -119,6 +123,9 @@ class StudentForm extends Component {
               icon={<InsertChart />}
               onClick={() => this.handleDialog('OPEN')}
             />
+            {fileName && (
+              <Icon icon={<Download />} onClick={() => downloadPdf(fileName)} />
+            )}
             <Dialog
               open={isDialogOpen}
               handleClose={() => this.handleDialog('CLOSE')}
