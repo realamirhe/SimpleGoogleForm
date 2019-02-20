@@ -5,7 +5,7 @@ import AdminPage from './components/_adminPage/adminPage'
 import { Router } from '@reach/router'
 import SignIn from './components/auth/signIn'
 
-// import NotFound from ''
+import NotFound from './components/notFoundPage'
 
 // helper
 import { load } from './helper/functions/localStorage'
@@ -29,7 +29,7 @@ class App extends Component {
       <Router>
         <AdminPage path="/adminPage/:mode" isAdminLoggedIn={isAdminLoggedIn} />
         <SignIn path="/" setIsAdminLoggedIn={this.setIsAdminLoggedIn} />
-        {/* <NotFound  default /> */}
+        <NotFound default />
       </Router>
     )
   }
