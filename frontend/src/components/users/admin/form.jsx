@@ -70,19 +70,19 @@ class AdminForm extends Component {
       this.snackBarHandler(true)
       return
     }
-    if (editMode) {
-      editForm({
-        formId,
-        name: formName,
-        answers: questions,
-        file: selectedFile,
-      })
+    if (this.editMode) {
+      const formData = new FormData()
+      formData.append('formId', formId)
+      formData.append('name', formName)
+      formData.append('answers', JSON.stringify(questions))
+      formData.append('pdf', selectedFile)
+      editForm(formData)
     } else {
-      makeForm({
-        name: formName,
-        answers: selectedFile,
-        file: selectedFile,
-      })
+      const formData = new FormData()
+      formData.append('name', formName)
+      formData.append('answers', JSON.stringify(questions))
+      formData.append('pdf', selectedFile)
+      makeForm(formData)
     }
   }
 
@@ -120,6 +120,7 @@ AdminForm.propTypes = {
   formId: PropTypes.string,
   formName: PropTypes.string,
   initialSolution: PropTypes.string,
+  editMode: PropTypes.bool,
 }
 
 AdminForm.defaultProps = {
@@ -127,6 +128,7 @@ AdminForm.defaultProps = {
   formId: '',
   formName: '',
   initialSolution: '',
+  editMode: false,
 }
 
 export default AdminForm

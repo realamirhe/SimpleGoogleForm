@@ -49,7 +49,11 @@ const Form = ({
 }) => {
   return (
     <Paper className={classes.root} elevation={1}>
+<<<<<<< HEAD
       <Typography color="white">{formName}</Typography>
+=======
+      <Typography color="textPrimary">{formName}</Typography>
+>>>>>>> c4a7e32307d4398a153e3ad729551bf6552efd85
 
       <div className={classes.warper}>
         {Map(

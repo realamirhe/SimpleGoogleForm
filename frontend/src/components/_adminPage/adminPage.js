@@ -40,7 +40,7 @@ class App extends Component {
         ) : mode === 'createNewForm' ? (
           <AdminFillForm {...newFormInfo} />
         ) : (
-          <AdminFillForm fromId={mode} />
+          <AdminFillForm fromId={mode} editMode />
         )}
       </Fragment>
     )
