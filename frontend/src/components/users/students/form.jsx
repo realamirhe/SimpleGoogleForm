@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // third-party-packages
 import * as R from 'ramda'
-import Dialog from '@material-ui/core/Dialog'
+import Dialog from '../../../helper/components/dialog'
 // helpers
 import {
   userGetForm,
@@ -13,12 +13,12 @@ import timingUtil from './timing'
 import Form from '../../../helper/components/form'
 import Icon from '../../../helper/components/Icon'
 // // assets
-import Pencil from '../../../assets/sound_fx/Pencil.mp3'
+import Pencil from '../../../assets/sound_fx/pencil.mp3'
 import Eraser from '../../../assets/sound_fx/eraser.mp3'
 import InsertChart from '@material-ui/icons/InsertChart'
 
 // // CONST
-import { FILL, REMOVE } from '../../functions/constants'
+import { FILL, REMOVE } from '../../../helper/functions/constants'
 // // instance helpers
 const pencilPlayer = new Audio(Pencil)
 const eraserPlayer = new Audio(Eraser)
@@ -36,14 +36,17 @@ class StudentForm extends Component {
       testInfo: {},
       isDialogOpen: false,
     }
+    console.log(this.props)
     this.timer = timingUtil()
+    this.changeAnswer = this.changeAnswer.bind(this)
+    this.send = this.send.bind(this)
   }
 
   componentDidMount() {
     const { formId } = this.props
     userGetForm(formId).then(({ name, questionsNumber }) => {
       this.setState({
-        question: R.map(R.always(null), R.range(0, questionsNumber)),
+        questions: R.map(R.always(null), R.range(0, questionsNumber)),
         startTime: new Date(),
         formName: name,
       })
@@ -67,7 +70,8 @@ class StudentForm extends Component {
     const computeRanking = this.timer() < 5 ? false : true
 
     const { formId, questions } = this.state
-    getTestResult({ formId, questions, computeRanking }).then(
+
+    getTestResult({ formId, answers: questions, computeRanking }).then(
       ({ rank, percentage, formName }) => {
         this.setState({
           hasTestResult: true,
@@ -98,11 +102,10 @@ class StudentForm extends Component {
       testInfo,
       isDialogOpen,
     } = this.state
-
-    console.log('testInfo', testInfo)
     return (
       <div>
         <Form
+          disableUpload
           formName={formName}
           questions={questions}
           openSnackBar={isSnackBarOpen}
@@ -131,6 +134,9 @@ class StudentForm extends Component {
 
 StudentForm.propTypes = {
   formId: PropTypes.string.isRequired,
+  disableSound: PropTypes.bool,
 }
+
+StudentForm.defaultProps = { disableSound: false }
 
 export default StudentForm

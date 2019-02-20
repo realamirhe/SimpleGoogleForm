@@ -27,8 +27,8 @@ const MiniFormList = ({ forms, isAdminLoggedIn }) => {
             onClick={() => navigate('/adminPage/createFormInfo')}
           />
           {map(
-            ({ formName, formId }) => (
-              <MiniFormItem formName={formName} formId={formId} />
+            ({ name, _id }) => (
+              <MiniFormItem formName={name} formId={_id} />
             ),
             forms,
           )}
@@ -41,8 +41,8 @@ const MiniFormList = ({ forms, isAdminLoggedIn }) => {
 MiniFormList.propTypes = {
   forms: PropTypes.arrayOf(
     PropTypes.shape({
-      formName: PropTypes.string,
-      formId: PropTypes.string.isRequired,
+      name: PropTypes.string,
+      _id: PropTypes.string.isRequired,
     }),
   ).isRequired,
 }

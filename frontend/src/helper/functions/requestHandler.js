@@ -10,7 +10,7 @@ const getForms = () =>
   request
     .get(config.server + '/getForms')
     .set('Access-Control-Allow-Origin', '*')
-    .then(R.prop('body')) // {result : [{_id, name}, ....]}
+    .then(R.path(['body', 'result'])) // {result : [{_id, name}, ....]}
 
 const signIn = (username, password) =>
   request
@@ -33,7 +33,7 @@ const makeForm = formData =>
     .post(config.server + '/addNewForm')
     .set('Access-Control-Allow-Origin', '*')
     .send(formData)
-    .then(R.prop('body')) // ({id})
+    .then(R.path(['body', 'id'])) // ({id})
 
 const editForm = formData =>
   // ({fileId, name, answers, ...file})
