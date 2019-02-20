@@ -3,6 +3,7 @@ import request from 'superagent'
 import * as R from 'ramda'
 // Config
 import config from '../../setup/config'
+// helper
 
 // admin panel #######################################
 
@@ -65,7 +66,10 @@ const downloadPdf = fileName =>
     .get(config.server + '/downloadPdf')
     .set('Access-Control-Allow-Origin', '*')
     .query({ fileName })
-    .then(R.prop('body'))
+    .on('request', function callback() {
+      this.xhr.responseType = 'blob'
+    })
+    .then(R.path(['xhr', 'response']))
 
 export {
   userGetForm,

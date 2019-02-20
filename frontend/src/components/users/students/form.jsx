@@ -10,6 +10,7 @@ import {
   downloadPdf,
 } from '../../../helper/functions/requestHandler'
 import timingUtil from './timing'
+import { saveBlobToDisk } from '../../../helper/functions/download'
 // component
 import Form from '../../../helper/components/form'
 import Icon from '../../../helper/components/Icon'
@@ -39,7 +40,6 @@ class StudentForm extends Component {
       isDialogOpen: false,
       fileName: '',
     }
-    console.log(this.props)
     this.timer = timingUtil()
     this.changeAnswer = this.changeAnswer.bind(this)
     this.send = this.send.bind(this)
@@ -124,7 +124,14 @@ class StudentForm extends Component {
               onClick={() => this.handleDialog('OPEN')}
             />
             {fileName && (
-              <Icon icon={<Download />} onClick={() => downloadPdf(fileName)} />
+              <Icon
+                icon={<Download />}
+                onClick={() =>
+                  downloadPdf(fileName).then(blob =>
+                    saveBlobToDisk(blob, fileName),
+                  )
+                }
+              />
             )}
             <Dialog
               open={isDialogOpen}

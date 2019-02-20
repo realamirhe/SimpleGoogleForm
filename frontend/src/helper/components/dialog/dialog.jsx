@@ -31,34 +31,39 @@ const styles = theme => ({
   },
 })
 
-const TestResultDialog = ({ classes, open, handleClose, formName, testInfo }) =>
-  console.log({ testInfo }) || (
-    <Dialog onClose={handleClose} open={open}>
-      <DialogTitle disableTypography className={classes.root}>
-        <Typography variant="h6">{formName}</Typography>
-        {handleClose ? (
-          <IconButton
-            aria-label="Close"
-            className={classes.closeButton}
-            onClick={handleClose}
-          >
-            <CloseIcon />
-          </IconButton>
-        ) : null}
-      </DialogTitle>
+const TestResultDialog = ({
+  classes,
+  open,
+  handleClose,
+  formName,
+  testInfo,
+}) => (
+  <Dialog onClose={handleClose} open={open}>
+    <DialogTitle disableTypography className={classes.root}>
+      <Typography variant="h6">{formName}</Typography>
+      {handleClose ? (
+        <IconButton
+          aria-label="Close"
+          className={classes.closeButton}
+          onClick={handleClose}
+        >
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </DialogTitle>
 
-      <DialogContent className={{ root: classes.rootDialogContent }}>
-        <Typography variant="h6" gutterBottom>
-          percentage {testInfo.percentage.toFixed(2)}%
-        </Typography>
-        <Typography variant="h6" gutterBottom>
-          {testInfo.rank
-            ? `ranking is ${testInfo.rank} person`
-            : 'you have alredy participated'}
-        </Typography>
-      </DialogContent>
-    </Dialog>
-  )
+    <DialogContent className={{ root: classes.rootDialogContent }}>
+      <Typography variant="h6" gutterBottom>
+        percentage {testInfo.percentage.toFixed(2)}%
+      </Typography>
+      <Typography variant="h6" gutterBottom>
+        {testInfo.rank
+          ? `ranking is ${testInfo.rank} person`
+          : 'you have alredy participated'}
+      </Typography>
+    </DialogContent>
+  </Dialog>
+)
 
 TestResultDialog.propTypes = {
   open: PropTypes.bool,
