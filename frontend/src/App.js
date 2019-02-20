@@ -6,7 +6,7 @@ import { Router } from '@reach/router'
 import SignIn from './components/auth/signIn'
 import StudendForm from './components/users/students/form'
 
-// import NotFound from ''
+import NotFound from './components/notFoundPage'
 
 // helper
 import { load } from './helper/functions/localStorage'
@@ -31,7 +31,7 @@ class App extends Component {
         <AdminPage path="/adminPage/:mode" isAdminLoggedIn={isAdminLoggedIn} />
         <SignIn path="/" setIsAdminLoggedIn={this.setIsAdminLoggedIn} />
         <StudendForm path="/forms/:formId" />
-        {/* <NotFound  default /> */}
+        <NotFound default />
       </Router>
     )
   }
