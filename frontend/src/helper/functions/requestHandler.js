@@ -42,7 +42,6 @@ const editForm = formData =>
     .post(config.server + '/editForm')
     .set('Access-Control-Allow-Origin', '*')
     .send(formData)
-    .then(console.log)
 
 // user panel #######################################
 

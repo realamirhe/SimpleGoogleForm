@@ -19,7 +19,7 @@ const router = express.Router()
 router.use(bodyParser.json())
 
 // helper Functions
-const getPersentage = (correctAnswer, userAnswer) =>
+const getPercentage = (correctAnswer, userAnswer) =>
   R.compose(
     result => (result / (correctAnswer.length * 3)) * 100,
     R.addIndex(R.reduce)(
@@ -46,7 +46,7 @@ router.post('/addNewForm', (req, res) =>
   upload(req, res, err => {
     if (err) console.log(err)
     database
-      .addForm(JSON.parse(req.body.data))
+      .addForm({ name: req.body.name, answers: JSON.parse(req.body.answers) })
       .then(({ _id }) => {
         if (req.file)
           database
@@ -62,13 +62,16 @@ router.post('/addNewForm', (req, res) =>
 router.post('/editForm', (req, res) =>
   upload(req, res, err => {
     if (err) console.log(err)
-    const data = JSON.parse(req.body.data)
     database
-      .editForm(data)
+      .editForm({
+        name: req.body.name,
+        formId: req.body.formId,
+        answers: JSON.parse(req.body.answers),
+      })
       .then(() => {
         if (req.file)
           database
-            .editFormFileName(data.formId, `${req.file.filename}`)
+            .editFormFileName(req.body.formId, `${req.file.filename}`)
             .then(() => res.send('seccessful'))
             .catch(error => res.status(500).send(error))
         else res.send('seccessful')
@@ -77,39 +80,37 @@ router.post('/editForm', (req, res) =>
   }),
 )
 
-router.get('/getTestResult', (req, res) => {
-  // const userId = requestIp.getClientIp(req)
+router.post('/getTestResult', (req, res) => {
+  const userId = requestIp.getClientIp(req)
   const {
-    body: { formId, answers: userAnswer, userId, computeRanking },
+    body: { formId, answers: userAnswer, computeRanking },
   } = req
-
   database
     .getFormAnswersById(formId)
     .then(({ answers, userList, fileName }) => {
-      const persentage = getPersentage(answers, userAnswer)
+      const percentage = getPercentage(answers, userAnswer)
       if (computeRanking && !R.contains(userId, userList)) {
         database
-          .saveAnswer(formId, persentage, userId)
-          .then(({ percentageList }) =>
+          .saveAnswer(formId, percentage, userId)
+          .then(
             res.send({
-              rank:
-                binarySearch(
-                  percentageList,
-                  persentage,
-                  0,
-                  percentageList.length - 1,
-                ) || 1,
-              persentage,
+              rank: `${binarySearch(
+                percentageList,
+                percentage,
+                0,
+                percentageList.length - 1,
+              ) || 1} of ${percentageList.length + 1}`,
+              percentage,
               fileName,
             }),
           )
           .catch(error => res.status(500).send(error))
-      } else res.send({ persentage, fileName })
+      } else res.send({ percentage, fileName })
     })
     .catch(err => res.status(500).send(err))
 })
 
-router.get('/userGetForm', ({ body: { formId } }, res) =>
+router.post('/userGetForm', ({ body: { formId } }, res) =>
   database
     .getFormById(formId)
     .then(({ answers, name }) =>
@@ -118,30 +119,27 @@ router.get('/userGetForm', ({ body: { formId } }, res) =>
     .catch(err => res.status(500).send(err)),
 )
 
-router.get(
-  '/getForms',
-  (_, res) =>
-    console.log('hi') ||
-    database
-      .getForms()
-      .then(result => res.send({ result }))
-      .catch(err => res.status(500).send(err)),
+router.get('/getForms', (_, res) =>
+  database
+    .getForms()
+    .then(result => res.send({ result }))
+    .catch(err => res.status(500).send(err)),
 )
 
-router.get('/adminGetForm', ({ body: { formId } }, res) =>
+router.post('/adminGetForm', ({ body: { formId } }, res) =>
   database
     .getFormById(formId)
-    .then(({ answers, name, fromName }) =>
-      res.send({ name, answers, fromName }),
+    .then(({ answers, name, fileName }) =>
+      res.send({ name, answers, fileName }),
     )
     .catch(err => res.status(500).send(err)),
 )
 
-router.get('/signin', ({ body: { username, password } }, res) =>
+router.post('/signin', ({ body: { username, password } }, res) =>
   res.send({ correct: password === '12345678' && username === 'admin' }),
 )
 
-router.get('/downloadPdf/:fileName', ({ params: { fileName } }, res) =>
+router.get('/downloadPdf', ({ query: { fileName } }, res) =>
   res.download(path.resolve(`./src/files/${fileName}`)),
 )
 

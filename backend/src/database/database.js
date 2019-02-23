@@ -3,8 +3,7 @@ const models = require('./databaseModel')
 
 exports.connect = dbName => {
   mongoose.connect(
-    // `mongodb://hoseinNorouzi:wfTN-2Eb4iNKMGW@cluster0-shard-00-00-2dpuf.mongodb.net:27017,cluster0-shard-00-01-2dpuf.mongodb.net:27017,cluster0-shard-00-02-2dpuf.mongodb.net:27017/${dbName}?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true`,
-    `mongodb://localhost/${dbName}`,
+    `mongodb://hoseinNorouzi:wfTN-2Eb4iNKMGW@cluster0-shard-00-00-2dpuf.mongodb.net:27017,cluster0-shard-00-01-2dpuf.mongodb.net:27017,cluster0-shard-00-02-2dpuf.mongodb.net:27017/${dbName}?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true`,
     { useNewUrlParser: true },
   )
 

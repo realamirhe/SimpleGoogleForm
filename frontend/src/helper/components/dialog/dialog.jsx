@@ -56,11 +56,11 @@ const TestResultDialog = ({
       <Typography variant="h6" gutterBottom>
         percentage {testInfo.percentage.toFixed(2)}%
       </Typography>
-      <Typography variant="h6" gutterBottom>
-        {testInfo.rank
-          ? `ranking is ${testInfo.rank} person`
-          : 'you have alredy participated'}
-      </Typography>
+      {testInfo.rank && (
+        <Typography variant="h6" gutterBottom>
+          ranking is {testInfo.rank} person
+        </Typography>
+      )}
     </DialogContent>
   </Dialog>
 )

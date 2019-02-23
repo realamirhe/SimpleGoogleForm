@@ -147,10 +147,10 @@ class StudentForm extends Component {
 }
 
 StudentForm.propTypes = {
-  formId: PropTypes.string.isRequired,
+  formId: PropTypes.string,
   disableSound: PropTypes.bool,
 }
 
-StudentForm.defaultProps = { disableSound: false }
+StudentForm.defaultProps = { disableSound: false, formId: '' }
 
 export default StudentForm
