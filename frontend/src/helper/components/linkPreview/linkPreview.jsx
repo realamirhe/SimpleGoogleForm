@@ -88,7 +88,7 @@ class LinkPreview extends Component {
 
         <Snackbar
           message={`${
-            type === 'success' ? 'copied Successfully' : 'copy failed'
+            type === 'success' ? 'به درستی کپی شد' : 'کپی با شکست روبرو شد'
           }`}
           onClose={this.close}
           variant={type}

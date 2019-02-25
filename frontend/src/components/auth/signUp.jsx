@@ -22,8 +22,8 @@ const styles = theme => ({
     margin: theme.spacing.unit,
   },
   icon: {
-    cursor: 'pointer'
-  }
+    cursor: 'pointer',
+  },
 })
 
 class SignUp extends React.Component {
@@ -48,7 +48,7 @@ class SignUp extends React.Component {
     return (
       <div className={classes.root}>
         <Typography variant="h5" gutterBottom>
-          CREATE NEW ACCOUNT
+          ساخت حساب کاربری
         </Typography>
         <TextField
           id="outlined-adornment-username"
@@ -114,7 +114,7 @@ class SignUp extends React.Component {
           aria-label="Add"
           className={classes.margin}
         >
-          Sign Up
+          ثبت نام
         </Fab>
       </div>
     )

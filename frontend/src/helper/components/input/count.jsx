@@ -28,7 +28,6 @@ const Count = ({ classes, value, onChange }) => (
       fullWidth
       onChange={onChange}
       type="number"
-      placeholder="0"
       className={classes.textField}
       margin="dense"
       value={value}

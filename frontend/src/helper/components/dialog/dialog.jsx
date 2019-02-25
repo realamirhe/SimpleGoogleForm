@@ -21,7 +21,7 @@ const styles = theme => ({
   },
   closeButton: {
     position: 'absolute',
-    right: theme.spacing.unit,
+    left: theme.spacing.unit,
     top: theme.spacing.unit,
     color: theme.palette.grey[500],
   },
@@ -40,7 +40,6 @@ const TestResultDialog = ({
 }) => (
   <Dialog onClose={handleClose} open={open}>
     <DialogTitle disableTypography className={classes.root}>
-      <Typography variant="h6">{formName}</Typography>
       {handleClose ? (
         <IconButton
           aria-label="Close"
@@ -50,15 +49,23 @@ const TestResultDialog = ({
           <CloseIcon />
         </IconButton>
       ) : null}
+      <Typography variant="h6" dir="rtl">
+        ازمون: {formName}
+      </Typography>
     </DialogTitle>
 
-    <DialogContent className={{ root: classes.rootDialogContent }}>
-      <Typography variant="h6" gutterBottom>
-        percentage {testInfo.percentage.toFixed(2)}%
+    <DialogContent className={classes.rootDialogContent}>
+      <Typography variant="h6" gutterBottom dir="rtl">
+        درصد: {testInfo.percentage.toFixed(2)}%
       </Typography>
       {testInfo.rank && (
-        <Typography variant="h6" gutterBottom>
-          ranking is {testInfo.rank} person
+        <Typography variant="h6" gutterBottom dir="rtl">
+          رتبه: {testInfo.rank}
+        </Typography>
+      )}
+      {testInfo.description && (
+        <Typography variant="h6" gutterBottom dir="rtl">
+          {testInfo.description}
         </Typography>
       )}
     </DialogContent>

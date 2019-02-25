@@ -49,7 +49,9 @@ const Form = ({
 }) => {
   return (
     <Paper className={classes.root} elevation={1}>
-      <Typography color="textPrimary">{formName}</Typography>
+      <Typography variant="h6" dir="rtl" style={{ color: 'white' }}>
+        ازمون: {formName}
+      </Typography>
 
       <div className={classes.warper}>
         {Map(
@@ -67,13 +69,13 @@ const Form = ({
 
       <span className={classes.buttons}>
         {!disableUpload && <UploadButton onChange={onFileUpload} />}
-        <Button type="secondary" text="Send" onClick={sendForm} />
+        <Button type="secondary" text="ارسال فرم" onClick={sendForm} />
       </span>
 
       <SnackBar
         open={openSnackBar}
         variant="error"
-        message="You must answer all question"
+        message="باید پاسخ تمام سوالات را مشخص کنید"
         onClose={() => snackBarHandler(false)}
       />
     </Paper>

@@ -22,6 +22,9 @@ const styles = theme => ({
     [theme.breakpoints.down('sm')]: {
       width: '70%',
     },
+    [theme.breakpoints.down('md')]: {
+      width: '70%',
+    },
     [theme.breakpoints.up('lg')]: {
       width: 'initial',
     },

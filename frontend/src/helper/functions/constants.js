@@ -3,4 +3,6 @@ const FILL = 'FILL'
 
 const ADMIN = 'ADMIN'
 
-export { REMOVE, FILL, ADMIN }
+const TIME_LIMIT = 5
+
+export { REMOVE, FILL, ADMIN, TIME_LIMIT }

@@ -39,7 +39,7 @@ class FormInfo extends Component {
     return (
       <Paper className={classes.root}>
         <Input
-          placeholder="Form Name"
+          placeholder="نام ازمون"
           value={formName}
           onChange={event => this.onChange('formName', event.target.value)}
         />
@@ -50,7 +50,7 @@ class FormInfo extends Component {
           }
         />
         <Button
-          text="Create Form"
+          text="ساخت ازمون"
           onClick={() => {
             setNewFormInfo({
               formName,

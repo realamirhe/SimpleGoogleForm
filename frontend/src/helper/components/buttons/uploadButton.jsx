@@ -32,7 +32,7 @@ function UploadButton({ onChange, classes }) {
           component="span"
           className={classes.button}
         >
-          Upload
+          بارگذاری پاسخ تشریحی
         </Button>
       </label>
     </div>

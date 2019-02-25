@@ -53,7 +53,7 @@ class SignIn extends Component {
     return (
       <div className={classes.root}>
         <Typography variant="h5" gutterBottom>
-          Let's Get Started!
+          به حساب کاربری خود وارد شوید
         </Typography>
         <TextField
           id="outlined-adornment-username"
@@ -108,7 +108,7 @@ class SignIn extends Component {
             })
           }
         >
-          Sign In
+          ورود
         </Fab>
       </div>
     )

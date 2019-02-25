@@ -1,7 +1,7 @@
 .c--question {
   display: flex;
   justify-content: space-between;
-  width: 130px;
+  width: 140px;
   height: 6px;
   margin: 10px;
 }
@@ -20,6 +20,7 @@
   letter-spacing: 2px;
   border-radius: 50px;
   overflow:hidden;
+  font-size: .9rem;
   z-index: 1;
   background: white;
   transition:         0.9s ease-in;
@@ -51,5 +52,5 @@
 .question_label {
   user-select: none;
   text-size-adjust: auto;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }

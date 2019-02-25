@@ -21,7 +21,7 @@ import InsertChart from '@material-ui/icons/InsertChart'
 import Download from '@material-ui/icons/GetApp'
 
 // // CONST
-import { FILL, REMOVE } from '../../../helper/functions/constants'
+import { FILL, REMOVE, TIME_LIMIT } from '../../../helper/functions/constants'
 // // instance helpers
 const pencilPlayer = new Audio(Pencil)
 const eraserPlayer = new Audio(Eraser)
@@ -70,15 +70,29 @@ class StudentForm extends Component {
   }
 
   send() {
-    const computeRanking = this.timer() < 5 ? false : true
-
+    const computeRanking = this.timer() < TIME_LIMIT ? false : true
     const { formId, questions } = this.state
+    /* ranking logic
+    ranking only displayed when
+    1. time should be more than limit
+    2. it is first time test
+    */
 
     getTestResult({ formId, answers: questions, computeRanking }).then(
       ({ rank, percentage, fileName }) => {
+        const description =
+          computeRanking && !rank
+            ? `شما قبلا یکبار این ازمون را شرکت کرده اید. برای هر ازمون تنها یکبار رتبه صادر میگردد`
+            : !computeRanking
+            ? 'حداقل زمان قابل قبول برای ازمون 5 دقیقه است. لطفا برای محاسبه رتبه با دقت بیشتری ازمون را بررسی کنید'
+            : null
         this.setState({
           hasTestResult: true,
-          testInfo: { rank, percentage },
+          testInfo: {
+            rank,
+            percentage,
+            description,
+          },
           fileName,
           isDialogOpen: true,
         })
@@ -120,12 +134,16 @@ class StudentForm extends Component {
         {hasTestResult && (
           <div>
             <Icon
+              text="نتایج ازمون"
+              style={{ width: 140, borderRadius: 15 }}
               icon={<InsertChart />}
               onClick={() => this.handleDialog('OPEN')}
             />
             {fileName && (
               <Icon
                 icon={<Download />}
+                text="دانلود پاسخ تشریحی"
+                style={{ width: 140, borderRadius: 15 }}
                 onClick={() =>
                   downloadPdf(fileName).then(blob =>
                     saveBlobToDisk(blob, fileName),

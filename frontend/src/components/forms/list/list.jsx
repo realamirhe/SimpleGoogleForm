@@ -24,11 +24,13 @@ const MiniFormList = ({ forms, isAdminLoggedIn }) => {
             icon={<NoteAdd style={{ width: 30, height: 30 }} />}
             ariaLabel="note-add"
             size="large"
+            text="ساخت فرم جدید"
+            style={{ width: 120, borderRadius: 14 }}
             onClick={() => navigate('/adminPage/createFormInfo')}
           />
           {map(
             ({ name, _id }) => (
-              <MiniFormItem formName={name} formId={_id} />
+              <MiniFormItem key={_id} formName={name} formId={_id} />
             ),
             forms,
           )}
