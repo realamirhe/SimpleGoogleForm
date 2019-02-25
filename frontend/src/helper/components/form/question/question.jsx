@@ -4,17 +4,19 @@ import PropTypes from 'prop-types'
 import { map } from 'ramda'
 // component
 import Checkbox from './checkbox'
+// helper
+import { toPersianNumber } from '../../../functions/utils'
 
 /* Question */
 const Question = ({ initialValue, label, changeAnswer }) => (
   <div className="c--question">
-    <span className="question_label">{label + 1}</span>
+    <span className="question_label">{toPersianNumber(label + 1)}</span>
     <div style={{ display: 'flex' }}>
       {map(
         value => (
           <Checkbox
             key={value}
-            innerText={value}
+            innerText={toPersianNumber(value)}
             onClick={changeAnswer(value)}
             isChecked={value === initialValue}
           />
