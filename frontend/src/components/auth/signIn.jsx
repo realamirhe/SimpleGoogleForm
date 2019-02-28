@@ -6,28 +6,45 @@ import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import TextField from '@material-ui/core/TextField'
+import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import Fab from '@material-ui/core/Fab'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Face from '@material-ui/icons/Face'
 import { navigate } from '@reach/router'
+import { AnimatedButton } from '../../helper/components/buttons'
 // helper
 import { signIn } from '../../helper/functions/requestHandler'
 import { save } from '../../helper/functions/localStorage'
 
 const styles = theme => ({
   root: {
+    maxWidth: 500,
     width: 500,
+    height: 400,
+    maxHeight: 400,
+    borderRadius: 30,
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    flexWrap: 'wrap',
     alignItems: 'center',
   },
   margin: {
     margin: theme.spacing.unit,
   },
+  textField: {
+    width: '80%',
+    minHeight: 50,
+    height: 50,
+
+  },
   icon: {
     cursor: 'pointer',
+    maxHeight: 24,
+    height: 24,
+    minHeight: 24,
   },
 })
 
@@ -36,6 +53,10 @@ class SignIn extends Component {
     username: '',
     password: '',
     showPassword: false,
+  }
+
+  componentDidMount() {
+    document.title = 'صفحه ورود'
   }
 
   handleChange = prop => ({ target: { value } }) => {
@@ -51,9 +72,9 @@ class SignIn extends Component {
     const { username, password, showPassword } = this.state
 
     return (
-      <div className={classes.root}>
-        <Typography variant="h5" gutterBottom>
-          به حساب کاربری خود وارد شوید
+      <Paper className={classes.root}>
+        <Typography variant="h5" gutterBottom style={{color:'#333333', fontSize: '2.5rem'}}>
+          ورود
         </Typography>
         <TextField
           id="outlined-adornment-username"
@@ -61,12 +82,12 @@ class SignIn extends Component {
           onChange={this.handleChange('username')}
           value={username}
           variant="outlined"
-          label="Username"
+          label="نام کاربری"
           name="username"
-          fullWidth
+          margin="dense"
           InputProps={{
             startAdornment: (
-              <InputAdornment position="start">
+              <InputAdornment className={classes.icon} position="start">
                 <Face />
               </InputAdornment>
             ),
@@ -77,15 +98,15 @@ class SignIn extends Component {
           className={classNames(classes.margin, classes.textField)}
           variant="outlined"
           type={showPassword ? 'text' : 'password'}
-          label="Password"
+          label="رمز عبور"
           value={password}
-          fullWidth
+          margin="dense"
           onChange={this.handleChange('password')}
           InputProps={{
             startAdornment: (
               <InputAdornment
                 position="start"
-                className={classes.icon}
+                className={classNames(classes.icon)}
                 onClick={this.handleClickShowPassword}
               >
                 {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -93,12 +114,8 @@ class SignIn extends Component {
             ),
           }}
         />
-        <Fab
-          variant="extended"
-          size="medium"
-          color="primary"
-          aria-label="Add"
-          className={classes.margin}
+
+        <AnimatedButton
           onClick={() =>
             signIn(username, password).then(isAdminLoggedIn => {
               save('state', { isAdminLoggedIn })
@@ -107,10 +124,9 @@ class SignIn extends Component {
               // else snakbar
             })
           }
-        >
-          ورود
-        </Fab>
-      </div>
+          text="ورود"
+        />
+      </Paper>
     )
   }
 }
