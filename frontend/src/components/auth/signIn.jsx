@@ -38,7 +38,6 @@ const styles = theme => ({
     width: '80%',
     minHeight: 50,
     height: 50,
-
   },
   icon: {
     cursor: 'pointer',
@@ -73,7 +72,11 @@ class SignIn extends Component {
 
     return (
       <Paper className={classes.root}>
-        <Typography variant="h5" gutterBottom style={{color:'#333333', fontSize: '2.5rem'}}>
+        <Typography
+          variant="h5"
+          gutterBottom
+          style={{ color: '#333333', fontSize: '2.5rem' }}
+        >
           ورود
         </Typography>
         <TextField
@@ -86,8 +89,8 @@ class SignIn extends Component {
           name="username"
           margin="dense"
           InputProps={{
-            startAdornment: (
-              <InputAdornment className={classes.icon} position="start">
+            endAdornment: (
+              <InputAdornment className={classes.icon} position="end">
                 <Face />
               </InputAdornment>
             ),
@@ -103,9 +106,9 @@ class SignIn extends Component {
           margin="dense"
           onChange={this.handleChange('password')}
           InputProps={{
-            startAdornment: (
+            endAdornment: (
               <InputAdornment
-                position="start"
+                position="end"
                 className={classNames(classes.icon)}
                 onClick={this.handleClickShowPassword}
               >

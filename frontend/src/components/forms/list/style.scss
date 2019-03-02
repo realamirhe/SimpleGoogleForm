@@ -1,6 +1,10 @@
 .mini-form__list {
-    background: firebrick;
-    border-radius: 10px;
+    background: #707aed;
     display: flex;
     flex-wrap: wrap;
+    padding: 20px;
+    border-radius: 30px;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
 }

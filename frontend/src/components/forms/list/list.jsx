@@ -20,12 +20,11 @@ const MiniFormList = ({ forms, isAdminLoggedIn }) => {
       {isAdminLoggedIn && (
         <div className="mini-form__list">
           <Icon
-            color="primary"
             icon={<NoteAdd style={{ width: 30, height: 30 }} />}
             ariaLabel="note-add"
             size="large"
             text="ساخت فرم جدید"
-            style={{ width: 120, borderRadius: 14 }}
+            style={{ width: 120, borderRadius: 15, backgroundColor: '#7cb342' }}
             onClick={() => navigate('/adminPage/createFormInfo')}
           />
           {map(

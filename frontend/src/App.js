@@ -4,7 +4,7 @@ import * as R from 'ramda'
 import AdminPage from './components/_adminPage/adminPage'
 import { Router } from '@reach/router'
 import SignIn from './components/auth/signIn'
-import StudendForm from './components/users/students/form'
+import StudentForm from './components/users/students/form'
 
 import NotFound from './components/notFoundPage'
 
@@ -30,7 +30,7 @@ class App extends Component {
       <Router>
         <AdminPage path="/adminPage/:mode" isAdminLoggedIn={isAdminLoggedIn} />
         <SignIn path="/" setIsAdminLoggedIn={this.setIsAdminLoggedIn} />
-        <StudendForm path="/forms/:formId" />
+        <StudentForm path="/forms/:formId" />
         <NotFound default />
       </Router>
     )

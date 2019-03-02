@@ -41,20 +41,32 @@ const styles = theme => ({
 const MiniFormItem = ({ classes, formName, formId }) => {
   return (
     <Card className={classes.card}>
-      <CardContent className={classes.content}>
-        <Typography variant="subtitle1">{formName}</Typography>
-      </CardContent>
-      <Icon
-        color="secondary"
-        icon={<Edit />}
-        ariaLabel="Edit"
-        onClick={() => navigate(`/adminPage/${formId}`)}
-      />
-      <Typography color="inherit" className={classes.link}>
-        <Link href={formId} className={classes.link}>
-          {formId}
-        </Link>
-      </Typography>
+      <ExpansionPanel>
+        <ExpansionPanelSummary>
+          <CardContent className={classes.content}>
+            <Typography variant="subtitle1">{formName}</Typography>
+          </CardContent>
+          <Icon
+            color="secondary"
+            icon={<Edit />}
+            style={{
+              paddingRight: 0,
+            }}
+            ariaLabel="Edit"
+            onClick={event => {
+              event.stopPropagation()
+              navigate(`/adminPage/${formId}`)
+            }}
+          />
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <Typography color="inherit" className={classes.link}>
+            <Link href={formId} className={classes.link}>
+              {formId}
+            </Link>
+          </Typography>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
     </Card>
   )
 }
