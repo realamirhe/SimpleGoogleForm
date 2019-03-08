@@ -122,14 +122,12 @@ class SignIn extends Component {
 
           <AnimatedButton
             onClick={() =>
-              signIn(username || 'admin', password || '12345678').then(
-                isAdminLoggedIn => {
-                  save('state', { isAdminLoggedIn })
-                  setIsAdminLoggedIn(isAdminLoggedIn)
-                  if (isAdminLoggedIn) navigate('/adminPage/forms')
-                  else this.setState({ errorOcurred: true })
-                },
-              )
+              signIn(username, password).then(isAdminLoggedIn => {
+                save('state', { isAdminLoggedIn })
+                setIsAdminLoggedIn(isAdminLoggedIn)
+                if (isAdminLoggedIn) navigate('/adminPage/forms')
+                else this.setState({ errorOcurred: true })
+              })
             }
             text="ورود"
           />

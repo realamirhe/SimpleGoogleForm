@@ -125,9 +125,9 @@ class AdminForm extends Component {
       >
         <AppBar
           leftText="خروج"
-          rightText="ورود"
-          onRightClick={() => console.log('on right click')}
-          onLeftClick={() => console.log('on left click')}
+          rightText="تغیر رمز عبور"
+          onRightClick={() => console.log('on right click')} // TODO: Add exit request
+          onLeftClick={() => console.log('on left click')} // TODO: navigate to forms url
         />
         <SimpleBar
           style={{

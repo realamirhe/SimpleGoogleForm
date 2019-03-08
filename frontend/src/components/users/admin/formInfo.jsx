@@ -86,7 +86,10 @@ class FormInfo extends Component {
 }
 
 FormInfo.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func,
 }
 
+FormInfo.propTypes = {
+  onSubmit: Function.prototype,
+}
 export default withStyles(styles)(FormInfo)

@@ -9,6 +9,7 @@ import image from '../../../assets/images/brand.png'
 const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
+    cursor: 'pointer',
   },
   input: {
     display: 'none',

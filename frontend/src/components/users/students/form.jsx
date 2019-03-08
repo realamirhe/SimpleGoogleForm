@@ -139,7 +139,6 @@ class StudentForm extends Component {
                   borderRadius: 15,
                 }}
                 aria-label="Add"
-                onClick={() => this.handleDialog('OPEN')}
               >
                 <InsertChart style={{ marginRight: 15 }} />
                 نتایج ازمون
@@ -159,19 +158,16 @@ class StudentForm extends Component {
                   borderRadius: 15,
                 }}
                 aria-label="Add"
-                onClick={() =>
-                  downloadPdf(fileName).then(blob =>
-                    saveBlobToDisk(blob, fileName),
-                  )
-                }
               >
                 <Download style={{ marginRight: 8 }} />
                 پاسخ تشریحی
               </Fab>
             )
           }
-          onRightClick={() => console.log('on right click')}
-          onLeftClick={() => console.log('on left click')}
+          onLeftClick={() => this.handleDialog('OPEN')}
+          onRightClick={() =>
+            downloadPdf(fileName).then(blob => saveBlobToDisk(blob, fileName))
+          }
         />
         <SimpleBar
           style={{
