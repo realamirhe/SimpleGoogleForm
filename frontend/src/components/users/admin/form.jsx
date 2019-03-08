@@ -123,7 +123,12 @@ class AdminForm extends Component {
           alignItems: 'center',
         }}
       >
-        <AppBar />
+        <AppBar
+          leftText="خروج"
+          rightText="ورود"
+          onRightClick={() => console.log('on right click')}
+          onLeftClick={() => console.log('on left click')}
+        />
         <SimpleBar
           style={{
             height: '70%',

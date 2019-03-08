@@ -72,9 +72,15 @@ const TestResultDialog = ({
 
 TestResultDialog.propTypes = {
   open: PropTypes.bool,
+  testInfo: PropTypes.shape({}),
 }
 TestResultDialog.defaultProps = {
   open: false,
+  testInfo: {
+    percentage: 0,
+    rank: 0,
+    description: 'loading...',
+  },
 }
 
 export default withStyles(styles)(TestResultDialog)

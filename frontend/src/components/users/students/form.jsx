@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 // third-party-packages
 import * as R from 'ramda'
 import Dialog from '../../../helper/components/dialog'
+import SimpleBar from 'simplebar-react'
+import 'simplebar/dist/simplebar.min.css'
 // helpers
 import {
   userGetForm,
@@ -14,6 +16,7 @@ import { saveBlobToDisk } from '../../../helper/functions/download'
 // component
 import Form from '../../../helper/components/form'
 import Icon from '../../../helper/components/Icon'
+import AppBar from '../../../helper/components/appBar'
 // // assets
 import Pencil from '../../../assets/sound_fx/pencil.mp3'
 import Eraser from '../../../assets/sound_fx/eraser.mp3'
@@ -22,6 +25,7 @@ import Download from '@material-ui/icons/GetApp'
 
 // // CONST
 import { FILL, REMOVE, TIME_LIMIT } from '../../../helper/functions/constants'
+import Fab from '@material-ui/core/Fab'
 // // instance helpers
 const pencilPlayer = new Audio(Pencil)
 const eraserPlayer = new Audio(Eraser)
@@ -122,42 +126,79 @@ class StudentForm extends Component {
     } = this.state
     return (
       <div>
-        <Form
-          disableUpload
-          formName={formName}
-          questions={questions}
-          openSnackBar={isSnackBarOpen}
-          sendForm={this.send}
-          snackBarHandler={this.snackBarHandler}
-          changeAnswer={this.changeAnswer}
-        />
-        {hasTestResult && (
-          <div>
-            <Icon
-              text="نتایج ازمون"
-              style={{ width: 140, borderRadius: 15 }}
-              icon={<InsertChart />}
-              onClick={() => this.handleDialog('OPEN')}
-            />
-            {fileName && (
-              <Icon
-                icon={<Download />}
-                text="دانلود پاسخ تشریحی"
-                style={{ width: 140, borderRadius: 15 }}
+        <AppBar
+          leftText={
+            hasTestResult && (
+              <Fab
+                variant="extended"
+                size="small"
+                color="primary"
+                style={{
+                  background: 'linear-gradient(to right, #5c89eacc, #fb00ffcc)',
+                  width: 140,
+                  borderRadius: 15,
+                }}
+                aria-label="Add"
+                onClick={() => this.handleDialog('OPEN')}
+              >
+                <InsertChart style={{ marginRight: 15 }} />
+                نتایج ازمون
+              </Fab>
+            )
+          }
+          rightText={
+            hasTestResult &&
+            fileName && (
+              <Fab
+                variant="extended"
+                size="small"
+                style={{
+                  background: 'linear-gradient(to left, #5c89eacc, #fb00ffcc)',
+                  color: 'white',
+                  width: 140,
+                  borderRadius: 15,
+                }}
+                aria-label="Add"
                 onClick={() =>
                   downloadPdf(fileName).then(blob =>
                     saveBlobToDisk(blob, fileName),
                   )
                 }
-              />
-            )}
-            <Dialog
-              open={isDialogOpen}
-              handleClose={() => this.handleDialog('CLOSE')}
-              formName={formName}
-              testInfo={testInfo}
-            />
-          </div>
+              >
+                <Download style={{ marginRight: 8 }} />
+                پاسخ تشریحی
+              </Fab>
+            )
+          }
+          onRightClick={() => console.log('on right click')}
+          onLeftClick={() => console.log('on left click')}
+        />
+        <SimpleBar
+          style={{
+            height: '70%',
+            width: '70%',
+            minWidth: 350,
+            maxHeight: 630,
+            marginTop: 70,
+          }}
+        >
+          <Form
+            disableUpload
+            formName={formName}
+            questions={questions}
+            openSnackBar={isSnackBarOpen}
+            sendForm={this.send}
+            snackBarHandler={this.snackBarHandler}
+            changeAnswer={this.changeAnswer}
+          />
+        </SimpleBar>
+        {hasTestResult && fileName && (
+          <Dialog
+            open={isDialogOpen}
+            handleClose={() => this.handleDialog('CLOSE')}
+            formName={formName}
+            testInfo={testInfo | undefined}
+          />
         )}
       </div>
     )
@@ -169,6 +210,9 @@ StudentForm.propTypes = {
   disableSound: PropTypes.bool,
 }
 
-StudentForm.defaultProps = { disableSound: false, formId: '' }
+StudentForm.defaultProps = {
+  disableSound: false,
+  formId: '',
+}
 
 export default StudentForm

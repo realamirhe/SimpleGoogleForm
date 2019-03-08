@@ -16,7 +16,13 @@ const styles = theme => ({
 })
 
 /* App bar */
-const AppBar = ({ classes }) => {
+const AppBar = ({
+  classes,
+  onLeftClick,
+  onRightClick,
+  rightText,
+  leftText,
+}) => {
   return (
     <div
       style={{
@@ -25,14 +31,16 @@ const AppBar = ({ classes }) => {
         position: 'fixed',
         display: 'flex',
         top: 0,
+        left: 0,
+        right: 0,
         justifyContent: 'space-between',
         height: 55,
         zIndex: 2,
       }}
     >
-      <Button disableFocusRipple disableRipple className={classes.button}>
-        خروج
-      </Button>
+      <span className={classes.button} onClick={onLeftClick}>
+        {leftText}
+      </span>
       <img
         src={image}
         alt="brand"
@@ -44,14 +52,24 @@ const AppBar = ({ classes }) => {
           padding: 15,
         }}
       />
-      <Button disableFocusRipple disableRipple className={classes.button}>
-        رمز عبور
-      </Button>
+      <span className={classes.button} onClick={onRightClick}>
+        {rightText}
+      </span>
     </div>
   )
 }
 
-AppBar.propTypes = {}
-AppBar.defaultProps = {}
+AppBar.propTypes = {
+  onLeftClick: PropTypes.func,
+  onRightClick: PropTypes.func,
+  rightText: PropTypes.node,
+  leftText: PropTypes.node,
+}
+AppBar.defaultProps = {
+  onLeftClick: Function.prototype,
+  onRightClick: Function.prototype,
+  rightText: '',
+  leftText: '',
+}
 
 export default withStyles(styles)(AppBar)
