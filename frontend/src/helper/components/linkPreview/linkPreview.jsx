@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // component
-import Snackbar from '../snackBar'
+import SnackBar from '../snackBar'
 // third-party-packages
 import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
@@ -86,7 +86,7 @@ class LinkPreview extends Component {
           </Button>
         </CardContent>
 
-        <Snackbar
+        <SnackBar
           message={`${
             type === 'success' ? 'به درستی کپی شد' : 'کپی با شکست روبرو شد'
           }`}
@@ -98,6 +98,10 @@ class LinkPreview extends Component {
       </Card>
     )
   }
+}
+
+LinkPreview.propTypes = {
+  link: PropTypes.string.isRequired,
 }
 
 export default withStyles(styles)(LinkPreview)

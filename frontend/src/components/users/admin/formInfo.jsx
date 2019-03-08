@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 // third-party-packages
 import { Paper } from '@material-ui/core'
@@ -7,16 +7,21 @@ import { withStyles } from '@material-ui/core/styles'
 import { Input, Count } from '../../../helper/components/input'
 import { Button } from '../../../helper/components/buttons'
 import { navigate } from '@reach/router'
+import SnackBar from '../../../helper/components/snackBar'
 // style
 const styles = {
   root: {
-    padding: 15,
+    maxWidth: 500,
+    width: 500,
+    height: 200,
+    maxHeight: 400,
+    borderRadius: 30,
+    backgroundColor: '#707aed',
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    flexWrap: 'wrap',
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'hotpink',
-    width: 400,
   },
 }
 /* Admin Form */
@@ -26,6 +31,7 @@ class FormInfo extends Component {
     this.state = {
       formName: '',
       initialQuestionCount: 0,
+      errorOcurred: false,
     }
     this.onChange = this.onChange.bind(this)
   }
@@ -34,32 +40,47 @@ class FormInfo extends Component {
   }
 
   render() {
-    const { initialQuestionCount, formName } = this.state
+    const { initialQuestionCount, formName, errorOcurred } = this.state
     const { classes, setNewFormInfo } = this.props
     return (
-      <Paper className={classes.root}>
-        <Input
-          placeholder="نام ازمون"
-          value={formName}
-          onChange={event => this.onChange('formName', event.target.value)}
+      <Fragment>
+        <Paper dir="rtl" className={classes.root}>
+          <Input
+            placeholder="نام ازمون"
+            value={formName}
+            onChange={event => this.onChange('formName', event.target.value)}
+          />
+          <Count
+            value={initialQuestionCount}
+            onChange={event =>
+              this.onChange('initialQuestionCount', Number(event.target.value))
+            }
+          />
+          <Button
+            text="ساخت ازمون"
+            onClick={() => {
+              if (initialQuestionCount > 0) {
+                setNewFormInfo({
+                  formName:
+                    formName ||
+                    Math.random()
+                      .toString(36)
+                      .replace(/[^a-z]+/g, '')
+                      .substr(0, 10),
+                  initialQuestionCount,
+                })
+                navigate('/adminPage/createNewForm')
+              } else this.setState({ errorOcurred: true })
+            }}
+          />
+        </Paper>
+        <SnackBar
+          open={errorOcurred}
+          variant="error"
+          message="تعداد سوالات حتما باید عددی مثبت باشد"
+          onClose={() => this.setState({ errorOcurred: false })}
         />
-        <Count
-          value={initialQuestionCount}
-          onChange={event =>
-            this.onChange('initialQuestionCount', Number(event.target.value))
-          }
-        />
-        <Button
-          text="ساخت ازمون"
-          onClick={() => {
-            setNewFormInfo({
-              formName,
-              initialQuestionCount,
-            })
-            navigate('/adminPage/createNewForm')
-          }}
-        />
-      </Paper>
+      </Fragment>
     )
   }
 }

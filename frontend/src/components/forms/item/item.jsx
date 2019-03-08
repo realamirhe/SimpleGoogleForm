@@ -42,7 +42,7 @@ const MiniFormItem = ({ classes, formName, formId }) => {
   return (
     <Card className={classes.card}>
       <ExpansionPanel>
-        <ExpansionPanelSummary>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <CardContent className={classes.content}>
             <Typography variant="subtitle1">{formName}</Typography>
           </CardContent>
@@ -51,6 +51,7 @@ const MiniFormItem = ({ classes, formName, formId }) => {
             icon={<Edit />}
             style={{
               paddingRight: 0,
+              marginRight: 25,
             }}
             ariaLabel="Edit"
             onClick={event => {

@@ -15,7 +15,6 @@ import { Map, Block } from '../../functions/ramdaHelper'
 const styles = {
   root: {
     padding: 15,
-    background: 'cornflowerblue',
     borderRadius: 20,
   },
 

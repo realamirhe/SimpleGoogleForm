@@ -1,11 +1,10 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 // component
 import Typography from '@material-ui/core/Typography'
 // assets
 import images from '../../assets/images/404page.jpeg'
 
-const PageNotFound = props => {
+const PageNotFound = () => {
   return (
     <div
       style={{
@@ -37,7 +36,5 @@ const PageNotFound = props => {
     </div>
   )
 }
-
-PageNotFound.propTypes = {}
 
 export default PageNotFound

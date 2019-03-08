@@ -15,6 +15,11 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    background-repeat: repeat-y;
+    background: cornflowerblue;
+    background: linear-gradient(to right, #04d6e0, #fb00ff);
+    background-image: url('./assets/images/background.jpg');
+    overflow: hidden;
 }
 
 

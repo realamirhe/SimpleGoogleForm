@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 // third-party-packages
 import * as R from 'ramda'
+import SimpleBar from 'simplebar-react'
+import 'simplebar/dist/simplebar.min.css'
 // helpers
 import {
   editForm,
@@ -11,6 +13,7 @@ import {
 import { REMOVE } from '../../../helper/functions/constants'
 // component
 import Form from '../../../helper/components/form'
+import AppBar from '../../../helper/components/appBar'
 import { navigate } from '@reach/router'
 
 class AdminForm extends Component {
@@ -112,15 +115,35 @@ class AdminForm extends Component {
   render() {
     const { formName, questions, isSnackBarOpen } = this.state
     return (
-      <Form
-        formName={formName}
-        questions={questions}
-        openSnackBar={isSnackBarOpen}
-        sendForm={this.send}
-        snackBarHandler={this.snackBarHandler}
-        changeAnswer={this.changeAnswer}
-        onFileUpload={this.handleSelectedFile}
-      />
+      <div
+        style={{
+          width: '100vw',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <AppBar />
+        <SimpleBar
+          style={{
+            height: '70%',
+            width: '70%',
+            minWidth: 350,
+            maxHeight: 630,
+            marginTop: 70,
+          }}
+        >
+          <Form
+            formName={formName}
+            questions={questions}
+            openSnackBar={isSnackBarOpen}
+            sendForm={this.send}
+            snackBarHandler={this.snackBarHandler}
+            changeAnswer={this.changeAnswer}
+            onFileUpload={this.handleSelectedFile}
+          />
+        </SimpleBar>
+      </div>
     )
   }
 }
