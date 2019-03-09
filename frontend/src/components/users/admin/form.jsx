@@ -44,14 +44,16 @@ class AdminForm extends Component {
     const { questionCount } = this.state
     const { editMode, formId } = this.props
     if (editMode) {
-      adminGetForm(formId).then(({ name, answers, fileName }) =>
-        this.setState({
-          questions: answers,
-          formName: name,
-          solution: fileName,
-          questionCount: answers.length,
-        }),
-      )
+      adminGetForm(formId)
+        .then(({ name, answers, fileName }) =>
+          this.setState({
+            questions: answers,
+            formName: name,
+            solution: fileName,
+            questionCount: answers.length,
+          }),
+        )
+        .catch(() => navigate('/'))
     } else {
       this.setState({
         questions: R.map(R.always(null), R.range(0, questionCount)),
@@ -84,16 +86,20 @@ class AdminForm extends Component {
         formData.append('name', formName)
         formData.append('answers', JSON.stringify(questions))
         formData.append('pdf', selectedFile)
-        editForm(formData).then(() => navigate('/adminPage/forms'))
+        editForm(formData)
+          .then(() => navigate('/adminPage/forms'))
+          .catch(() => navigate('/'))
       } else {
         const formData = new FormData()
         formData.append('name', formName)
         formData.append('answers', JSON.stringify(questions))
         formData.append('pdf', selectedFile)
-        makeForm(formData).then(id => {
-          setNewPageId(id)
-          navigate(`/adminPage/linkPreview`)
-        })
+        makeForm(formData)
+          .then(id => {
+            setNewPageId(id)
+            navigate(`/adminPage/linkPreview`)
+          })
+          .catch(() => navigate('/'))
       }
     }
   }

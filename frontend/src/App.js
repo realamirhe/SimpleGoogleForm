@@ -18,8 +18,6 @@ class App extends Component {
     super(props)
     this.state = {
       isAdminLoggedIn: R.prop('isAdminLoggedIn', load('state')),
-      username: R.prop('username', load('state')),
-      password: R.prop('password', load('state')),
     }
     this.setAppState = this.setAppState.bind(this)
   }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Router } from '@reach/router'
+import { Router, navigate } from '@reach/router'
 
 // Components
 import AdminPage from '../forms/list/list'
@@ -23,7 +23,9 @@ class App extends Component {
   }
 
   componentWillMount() {
-    getForms().then(forms => this.setState({ forms }))
+    getForms()
+      .then(forms => this.setState({ forms }))
+      .catch(() => navigate('/'))
   }
   onChange = (key, value) => this.setState({ [key]: value })
 

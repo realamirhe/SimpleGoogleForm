@@ -4,12 +4,16 @@ import * as R from 'ramda'
 // Config
 import config from '../../setup/config'
 // helper
-
+import { load } from './localStorage'
 // admin panel #######################################
 
 const getForms = () =>
   request
     .get(config.server + '/getForms')
+    .query({
+      username: R.prop('username', load('state')),
+      password: R.prop('password', load('state')),
+    })
     .set('Access-Control-Allow-Origin', '*')
     .then(R.path(['body', 'result'])) // {result : [{_id, name}, ....]}
 
@@ -25,23 +29,33 @@ const adminGetForm = formId =>
   request
     .post(config.server + '/adminGetForm')
     .set('Access-Control-Allow-Origin', '*')
-    .send({ formId })
+    .send({
+      formId,
+      username: R.prop('username', load('state')),
+      password: R.prop('password', load('state')),
+    })
     .then(R.prop('body')) // {name, answers, fileName}
 
-const makeForm = formData =>
+const makeForm = formData => {
   // ({name, answers, ...file})
-  request
+  formData.append('username', R.prop('username', load('state')))
+  formData.append('password', R.prop('password', load('state')))
+  return request
     .post(config.server + '/addNewForm')
     .set('Access-Control-Allow-Origin', '*')
     .send(formData)
     .then(R.path(['body', 'id'])) // ({id})
+}
 
-const editForm = formData =>
+const editForm = formData => {
   // ({fileId, name, answers, ...file})
-  request
+  formData.append('username', R.prop('username', load('state')))
+  formData.append('password', R.prop('password', load('state')))
+  return request
     .post(config.server + '/editForm')
     .set('Access-Control-Allow-Origin', '*')
     .send(formData)
+}
 
 // user panel #######################################
 

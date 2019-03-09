@@ -44,3 +44,11 @@ exports.editFormFileName = (formId, fileName) =>
   models.Form.updateOne({ _id: formId }, { $set: { fileName } })
 
 exports.getForms = () => models.Form.find({}).select('name _id')
+
+exports.getUserPass = () => models.Auth.find({}).select('username password')
+
+exports.setUserPass = ({ username, password, lastUsername }) =>
+  models.Auth.updateOne(
+    { username: lastUsername },
+    { $set: { username, password } },
+  )

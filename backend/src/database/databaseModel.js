@@ -10,4 +10,10 @@ const formSchema = new Schema({
   userList: Array,
 })
 
+const authSchema = new Schema({
+  username: String,
+  password: String,
+})
+
 exports.Form = mongoose.model('form', formSchema)
+exports.Auth = mongoose.model('auth', authSchema)
