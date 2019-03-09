@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { navigate } from '@reach/router'
 // third-party-packages
@@ -8,6 +8,7 @@ import NoteAdd from '@material-ui/icons/NoteAdd'
 // component
 import Icon from '../../../helper/components/Icon'
 import MiniFormItem from '../item'
+import WithAppBar from '../../../helper/components/appBar/withAppBar.jsx'
 // style
 import './style.scss'
 
@@ -16,7 +17,15 @@ import './style.scss'
 const MiniFormList = ({ forms, isAdminLoggedIn }) => {
   if (!isAdminLoggedIn) setTimeout(navigate, 0, '/')
   return (
-    <Fragment>
+    <WithAppBar
+      leftText="خروج"
+      rightText="تغیر رمز عبور"
+      onLeftClick={() => {
+        localStorage.clear()
+        navigate('/')
+      }}
+      onRightClick={() => navigate('/adminPage/changePassword')}
+    >
       {isAdminLoggedIn && (
         <div className="mini-form__list">
           <Icon
@@ -24,7 +33,11 @@ const MiniFormList = ({ forms, isAdminLoggedIn }) => {
             ariaLabel="note-add"
             size="large"
             text="ساخت فرم جدید"
-            style={{ width: 120, borderRadius: 15, backgroundColor: '#7cb342' }}
+            style={{
+              width: 120,
+              borderRadius: 15,
+              backgroundColor: '#7cb342',
+            }}
             onClick={() => navigate('/adminPage/createFormInfo')}
           />
           {map(
@@ -35,7 +48,7 @@ const MiniFormList = ({ forms, isAdminLoggedIn }) => {
           )}
         </div>
       )}
-    </Fragment>
+    </WithAppBar>
   )
 }
 

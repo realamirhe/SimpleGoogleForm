@@ -1,9 +1,12 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
+import { Router } from '@reach/router'
+
 // Components
 import AdminPage from '../forms/list/list'
 import AdminFillForm from '../users/admin/form'
 import AdminCreateForm from '../users/admin/formInfo'
 import LinkPreview from '../../helper/components/linkPreview'
+import ChangePassword from '../auth/changePassword'
 // helper
 import { getForms } from '../../helper/functions/requestHandler'
 
@@ -25,31 +28,32 @@ class App extends Component {
   onChange = (key, value) => this.setState({ [key]: value })
 
   render() {
-    const { isAdminLoggedIn, mode, location } = this.props
+    const { isAdminLoggedIn, location } = this.props
     const { newFormInfo, newPageId, forms } = this.state
     return (
-      <Fragment>
-        {mode === 'forms' ? (
-          <AdminPage
-            forms={forms}
-            isAdminLoggedIn={isAdminLoggedIn}
-            selectForm={this.onChange}
-          />
-        ) : mode === 'linkPreview' ? (
-          <LinkPreview link={`${location.origin}/forms/${newPageId}`} />
-        ) : mode === 'createFormInfo' ? (
-          <AdminCreateForm
-            setNewFormInfo={value => this.onChange('newFormInfo', value)}
-          />
-        ) : mode === 'createNewForm' ? (
-          <AdminFillForm
-            {...newFormInfo}
-            setNewPageId={value => this.onChange('newPageId', value)}
-          />
-        ) : (
-          <AdminFillForm formId={mode} editMode />
-        )}
-      </Fragment>
+      <Router>
+        <AdminPage
+          path="forms"
+          forms={forms}
+          isAdminLoggedIn={isAdminLoggedIn}
+          selectForm={this.onChange}
+        />
+        <LinkPreview
+          path="linkPreview"
+          link={`${location.origin}/forms/${newPageId}`}
+        />
+        <AdminCreateForm
+          path="createFormInfo"
+          setNewFormInfo={value => this.onChange('newFormInfo', value)}
+        />
+        <AdminFillForm
+          path="createNewForm"
+          {...newFormInfo}
+          setNewPageId={value => this.onChange('newPageId', value)}
+        />
+        <ChangePassword path="changePassword" />
+        <AdminFillForm path=":formId" editMode />
+      </Router>
     )
   }
 }

@@ -68,7 +68,7 @@ class SignIn extends Component {
   }
 
   render() {
-    const { classes, setIsAdminLoggedIn } = this.props
+    const { classes, setAppState } = this.props
     const { username, password, showPassword, errorOcurred } = this.state
 
     return (
@@ -123,10 +123,13 @@ class SignIn extends Component {
           <AnimatedButton
             onClick={() =>
               signIn(username, password).then(isAdminLoggedIn => {
-                save('state', { isAdminLoggedIn })
-                setIsAdminLoggedIn(isAdminLoggedIn)
-                if (isAdminLoggedIn) navigate('/adminPage/forms')
-                else this.setState({ errorOcurred: true })
+                setAppState('isAdminLoggedIn', isAdminLoggedIn)
+                if (isAdminLoggedIn) {
+                  setAppState('username', username)
+                  setAppState('password', password)
+                  save('state', { isAdminLoggedIn, password, username })
+                  navigate('/adminPage/forms')
+                } else this.setState({ errorOcurred: true })
               })
             }
             text="ورود"

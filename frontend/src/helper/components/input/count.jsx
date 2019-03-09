@@ -30,7 +30,7 @@ const Count = ({ classes, value, onChange }) => (
       type="number"
       className={classes.textField}
       margin="dense"
-      value={value}
+      value={value >= 0 ? value : 0}
     />
   </Paper>
 )

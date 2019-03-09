@@ -10,9 +10,10 @@ import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import Visibility from '@material-ui/icons/Lock'
 import VisibilityOff from '@material-ui/icons/LockOpen'
-// import { navigate } from '@reach/router'
+import { navigate } from '@reach/router'
 import { AnimatedButton } from '../../helper/components/buttons'
 import SnackBar from '../../helper/components/snackBar'
+import WithAppBar from '../../helper/components/appBar/withAppBar'
 // helper
 // import { signIn } from '../../helper/functions/requestHandler'
 // import { save } from '../../helper/functions/localStorage'
@@ -46,7 +47,7 @@ const styles = theme => ({
   },
 })
 
-class SignIn extends Component {
+class ChangePassword extends Component {
   state = {
     password0: '',
     password1: '',
@@ -84,7 +85,10 @@ class SignIn extends Component {
     } = this.state
 
     return (
-      <Fragment>
+      <WithAppBar
+        leftText="بازگشت"
+        onLeftClick={() => navigate('/adminPage/forms')}
+      >
         <Paper className={classes.root}>
           <Typography
             variant="h5"
@@ -180,13 +184,13 @@ class SignIn extends Component {
           message={errorMessage}
           onClose={() => this.setState({ errorMessage: '' })}
         />
-      </Fragment>
+      </WithAppBar>
     )
   }
 }
 
-SignIn.propTypes = {
+ChangePassword.propTypes = {
   classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(SignIn)
+export default withStyles(styles)(ChangePassword)

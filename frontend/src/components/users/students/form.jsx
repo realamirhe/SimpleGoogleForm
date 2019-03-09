@@ -16,7 +16,7 @@ import { saveBlobToDisk } from '../../../helper/functions/download'
 // component
 import Form from '../../../helper/components/form'
 import Icon from '../../../helper/components/Icon'
-import AppBar from '../../../helper/components/appBar'
+import AppBar from '../../../helper/components/appBar/appBar'
 // // assets
 import Pencil from '../../../assets/sound_fx/pencil.mp3'
 import Eraser from '../../../assets/sound_fx/eraser.mp3'

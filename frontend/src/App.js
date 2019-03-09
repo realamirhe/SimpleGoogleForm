@@ -18,18 +18,19 @@ class App extends Component {
     super(props)
     this.state = {
       isAdminLoggedIn: R.prop('isAdminLoggedIn', load('state')),
+      username: R.prop('username', load('state')),
+      password: R.prop('password', load('state')),
     }
-
-    this.setIsAdminLoggedIn = this.setIsAdminLoggedIn.bind(this)
+    this.setAppState = this.setAppState.bind(this)
   }
-  setIsAdminLoggedIn = value => this.setState({ isAdminLoggedIn: value })
+  setAppState = (key, value) => this.setState({ [key]: value })
 
   render() {
     const { isAdminLoggedIn } = this.state
     return (
       <Router>
-        <AdminPage path="/adminPage/:mode" isAdminLoggedIn={isAdminLoggedIn} />
-        <SignIn path="/" setIsAdminLoggedIn={this.setIsAdminLoggedIn} />
+        <AdminPage path="/adminPage/*" isAdminLoggedIn={isAdminLoggedIn} />
+        <SignIn path="/" setAppState={this.setAppState} />
         <StudentForm path="/forms/:formId" />
         <NotFound default />
       </Router>

@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { navigate } from '@reach/router'
 // component
 import SnackBar from '../snackBar'
+import WithAppBar from '../appBar/withAppBar'
+
 // third-party-packages
 import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
@@ -62,40 +65,45 @@ class LinkPreview extends Component {
     const { copy, type } = this.state
     const { classes, link } = this.props
     return (
-      <Card className={classes.card}>
-        <CardContent>
-          <Typography component="h5" variant="h5">
-            Form Link
-          </Typography>
-          <Typography color="inherit" className={classes.link}>
-            <Link href={link} className={classes.link}>
-              {link}
-            </Link>
-          </Typography>
-          <Button
-            variant="contained"
-            size="small"
-            color="primary"
-            className={classes.button}
-            onClick={this.copy}
-          >
-            <FileCopy
-              className={classNames(classes.leftIcon, classes.iconSmall)}
-            />
-            Copy
-          </Button>
-        </CardContent>
+      <WithAppBar
+        leftText="بازگشت به صفحه اصلی"
+        onLeftClick={() => navigate('/adminPage/forms')}
+      >
+        <Card className={classes.card}>
+          <CardContent>
+            <Typography component="h5" variant="h5">
+              Form Link
+            </Typography>
+            <Typography color="inherit" className={classes.link}>
+              <Link href={link} className={classes.link}>
+                {link}
+              </Link>
+            </Typography>
+            <Button
+              variant="contained"
+              size="small"
+              color="primary"
+              className={classes.button}
+              onClick={this.copy}
+            >
+              <FileCopy
+                className={classNames(classes.leftIcon, classes.iconSmall)}
+              />
+              Copy
+            </Button>
+          </CardContent>
 
-        <SnackBar
-          message={`${
-            type === 'success' ? 'به درستی کپی شد' : 'کپی با شکست روبرو شد'
-          }`}
-          onClose={this.close}
-          variant={type}
-          autoHideDuration={1000}
-          open={copy}
-        />
-      </Card>
+          <SnackBar
+            message={`${
+              type === 'success' ? 'به درستی کپی شد' : 'کپی با شکست روبرو شد'
+            }`}
+            onClose={this.close}
+            variant={type}
+            autoHideDuration={1000}
+            open={copy}
+          />
+        </Card>
+      </WithAppBar>
     )
   }
 }

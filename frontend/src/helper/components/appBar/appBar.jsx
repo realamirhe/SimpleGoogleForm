@@ -53,9 +53,11 @@ const AppBar = ({
           padding: 15,
         }}
       />
-      <span className={classes.button} onClick={onRightClick}>
-        {rightText}
-      </span>
+      {rightText && (
+        <span className={classes.button} onClick={onRightClick}>
+          {rightText}
+        </span>
+      )}
     </div>
   )
 }

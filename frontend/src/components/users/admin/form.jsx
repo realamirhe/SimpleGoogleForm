@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { navigate } from '@reach/router'
+
 // third-party-packages
 import * as R from 'ramda'
-import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
 // helpers
 import {
@@ -13,8 +14,7 @@ import {
 import { REMOVE } from '../../../helper/functions/constants'
 // component
 import Form from '../../../helper/components/form'
-import AppBar from '../../../helper/components/appBar'
-import { navigate } from '@reach/router'
+import WithAppBar from '../../../helper/components/appBar/withAppBar.jsx'
 
 class AdminForm extends Component {
   constructor(props) {
@@ -115,40 +115,20 @@ class AdminForm extends Component {
   render() {
     const { formName, questions, isSnackBarOpen } = this.state
     return (
-      <div
-        style={{
-          width: '100vw',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
+      <WithAppBar
+        leftText="بازگشت"
+        onLeftClick={() => navigate('/adminPage/forms')}
       >
-        <AppBar
-          leftText="خروج"
-          rightText="تغیر رمز عبور"
-          onRightClick={() => console.log('on right click')} // TODO: Add exit request
-          onLeftClick={() => console.log('on left click')} // TODO: navigate to forms url
+        <Form
+          formName={formName}
+          questions={questions}
+          openSnackBar={isSnackBarOpen}
+          sendForm={this.send}
+          snackBarHandler={this.snackBarHandler}
+          changeAnswer={this.changeAnswer}
+          onFileUpload={this.handleSelectedFile}
         />
-        <SimpleBar
-          style={{
-            height: '70%',
-            width: '70%',
-            minWidth: 350,
-            maxHeight: 630,
-            marginTop: 70,
-          }}
-        >
-          <Form
-            formName={formName}
-            questions={questions}
-            openSnackBar={isSnackBarOpen}
-            sendForm={this.send}
-            snackBarHandler={this.snackBarHandler}
-            changeAnswer={this.changeAnswer}
-            onFileUpload={this.handleSelectedFile}
-          />
-        </SimpleBar>
-      </div>
+      </WithAppBar>
     )
   }
 }
