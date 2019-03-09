@@ -17,7 +17,7 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isAdminLoggedIn: R.prop('isAdminLoggedIn', load('state')),
+      isAdminLoggedIn: load('isAdminLoggedIn'),
     }
     this.setAppState = this.setAppState.bind(this)
   }

@@ -1,7 +1,8 @@
 // moduls
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import * as R from 'ramda'
 // components
 import { withStyles } from '@material-ui/core/styles'
 import InputAdornment from '@material-ui/core/InputAdornment'
@@ -15,8 +16,8 @@ import { AnimatedButton } from '../../helper/components/buttons'
 import SnackBar from '../../helper/components/snackBar'
 import WithAppBar from '../../helper/components/appBar/withAppBar'
 // helper
-// import { signIn } from '../../helper/functions/requestHandler'
-// import { save } from '../../helper/functions/localStorage'
+import { changePassword } from '../../helper/functions/requestHandler'
+import { save } from '../../helper/functions/localStorage'
 
 const styles = theme => ({
   root: {
@@ -73,7 +74,7 @@ class ChangePassword extends Component {
   }
 
   render() {
-    const { classes, setIsAdminLoggedIn } = this.props
+    const { classes } = this.props
     const {
       password0,
       password1,
@@ -88,6 +89,7 @@ class ChangePassword extends Component {
       <WithAppBar
         leftText="بازگشت"
         onLeftClick={() => navigate('/adminPage/forms')}
+        disableBar
       >
         <Paper className={classes.root}>
           <Typography
@@ -169,13 +171,26 @@ class ChangePassword extends Component {
                 this.setState({
                   errorMessage: 'رمز عبور های جدید با هم متفاوت اند',
                 })
-              // if (password0 was incorect)
-              // this.setState({
-              //   errorMessage: 'رمز عبور قدیمی یافت نشد لطفا دوباره سعی کنید',
-              // })
-              console.log('shout change a password')
+              else
+                changePassword(password2)
+                  .then(
+                    a =>
+                      console.log(a) ||
+                      R.ifElse(
+                        R.equals('seccessful'),
+                        R.compose(
+                          () => navigate('/adminPage/forms'),
+                          () => save('password', password2),
+                        ),
+                        () =>
+                          this.setState({
+                            errorMessage: 'رمزعبور قبلی را اشتباه وارد کردید',
+                          }),
+                      )(a),
+                  )
+                  .catch(() => navigate('/'))
             }}
-            text="ورود"
+            text="ثبت"
           />
         </Paper>
         <SnackBar

@@ -10,6 +10,7 @@ const WithAppBarr = ({
   rightText,
   leftText,
   children,
+  disableBar,
 }) => (
   <div
     style={{
@@ -25,17 +26,21 @@ const WithAppBarr = ({
       onLeftClick={onLeftClick}
       onRightClick={onRightClick}
     />
-    <SimpleBar
-      style={{
-        height: '70%',
-        width: '70%',
-        minWidth: 350,
-        maxHeight: 630,
-        marginTop: 70,
-      }}
-    >
-      {children}
-    </SimpleBar>
+    {!disableBar ? (
+      <SimpleBar
+        style={{
+          height: '70%',
+          width: '80%',
+          minWidth: 350,
+          maxHeight: 630,
+          marginTop: 70,
+        }}
+      >
+        {children}
+      </SimpleBar>
+    ) : (
+      children
+    )}
   </div>
 )
 
@@ -44,6 +49,7 @@ WithAppBarr.propTypes = {
   onRightClick: PropTypes.func,
   rightText: PropTypes.node,
   leftText: PropTypes.node,
+  disableBar: PropTypes.bool,
 }
 
 WithAppBarr.defaultProps = {
@@ -51,5 +57,6 @@ WithAppBarr.defaultProps = {
   onRightClick: Function.prototype,
   rightText: '',
   leftText: '',
+  disableBar: false,
 }
 export default WithAppBarr

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { navigate } from '@reach/router'
 // third-party-packages
-import { map } from 'ramda'
+import * as R from 'ramda'
 // assets
 import NoteAdd from '@material-ui/icons/NoteAdd'
 // component
@@ -14,12 +14,13 @@ import './style.scss'
 
 // TODO: onClick Add Icon
 /* Mini Form List  */
-const MiniFormList = ({ forms, isAdminLoggedIn }) => {
+const MiniFormList = ({ forms, isAdminLoggedIn, location: { origin } }) => {
   if (!isAdminLoggedIn) setTimeout(navigate, 0, '/')
   return (
     <WithAppBar
       leftText="خروج"
       rightText="تغیر رمز عبور"
+      disableBar
       onLeftClick={() => {
         localStorage.clear()
         navigate('/')
@@ -40,9 +41,14 @@ const MiniFormList = ({ forms, isAdminLoggedIn }) => {
             }}
             onClick={() => navigate('/adminPage/createFormInfo')}
           />
-          {map(
+          {R.map(
             ({ name, _id }) => (
-              <MiniFormItem key={_id} formName={name} formId={_id} />
+              <MiniFormItem
+                key={_id}
+                formName={name}
+                formId={_id}
+                url={`${origin}/forms/`}
+              />
             ),
             forms,
           )}

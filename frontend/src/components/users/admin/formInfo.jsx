@@ -50,6 +50,7 @@ class FormInfo extends Component {
       <WithAppBar
         leftText="بازگشت"
         onLeftClick={() => navigate('/adminPage/forms')}
+        disableBar
       >
         <Fragment>
           <Paper dir="rtl" className={classes.root}>

@@ -124,10 +124,10 @@ class SignIn extends Component {
             onClick={() =>
               signIn(username, password).then(isAdminLoggedIn => {
                 setAppState('isAdminLoggedIn', isAdminLoggedIn)
+                save('isAdminLoggedIn', isAdminLoggedIn)
                 if (isAdminLoggedIn) {
-                  setAppState('username', username)
-                  setAppState('password', password)
-                  save('state', { isAdminLoggedIn, password, username })
+                  save('password', password)
+                  save('username', username)
                   navigate('/adminPage/forms')
                 } else this.setState({ errorOcurred: true })
               })

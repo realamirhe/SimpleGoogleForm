@@ -11,8 +11,8 @@ const getForms = () =>
   request
     .get(config.server + '/getForms')
     .query({
-      username: R.prop('username', load('state')),
-      password: R.prop('password', load('state')),
+      username: load('username'),
+      password: load('password'),
     })
     .set('Access-Control-Allow-Origin', '*')
     .then(R.path(['body', 'result'])) // {result : [{_id, name}, ....]}
@@ -22,8 +22,18 @@ const signIn = (username, password) =>
     .post(config.server + '/signin')
     .send({ username, password })
     .set('Access-Control-Allow-Origin', '*')
-    .then(R.path(['body', 'correct']))
-// ({correct})
+    .then(R.path(['body', 'correct'])) // ({correct})
+
+const changePassword = newPassword =>
+  request
+    .post(config.server + '/changePassword')
+    .send({
+      username: load('username'),
+      password: load('password'),
+      newPassword,
+    })
+    .set('Access-Control-Allow-Origin', '*')
+    .then(R.path(['body', 'msg'])) // ({msg})
 
 const adminGetForm = formId =>
   request
@@ -31,15 +41,15 @@ const adminGetForm = formId =>
     .set('Access-Control-Allow-Origin', '*')
     .send({
       formId,
-      username: R.prop('username', load('state')),
-      password: R.prop('password', load('state')),
+      username: load('username'),
+      password: load('password'),
     })
     .then(R.prop('body')) // {name, answers, fileName}
 
 const makeForm = formData => {
   // ({name, answers, ...file})
-  formData.append('username', R.prop('username', load('state')))
-  formData.append('password', R.prop('password', load('state')))
+  formData.append('username', load('username'))
+  formData.append('password', load('password'))
   return request
     .post(config.server + '/addNewForm')
     .set('Access-Control-Allow-Origin', '*')
@@ -49,8 +59,8 @@ const makeForm = formData => {
 
 const editForm = formData => {
   // ({fileId, name, answers, ...file})
-  formData.append('username', R.prop('username', load('state')))
-  formData.append('password', R.prop('password', load('state')))
+  formData.append('username', load('username'))
+  formData.append('password', load('password'))
   return request
     .post(config.server + '/editForm')
     .set('Access-Control-Allow-Origin', '*')
@@ -93,4 +103,5 @@ export {
   adminGetForm,
   editForm,
   downloadPdf,
+  changePassword,
 }

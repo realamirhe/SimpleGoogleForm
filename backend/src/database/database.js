@@ -47,8 +47,5 @@ exports.getForms = () => models.Form.find({}).select('name _id')
 
 exports.getUserPass = () => models.Auth.find({}).select('username password')
 
-exports.setUserPass = ({ username, password, lastUsername }) =>
-  models.Auth.updateOne(
-    { username: lastUsername },
-    { $set: { username, password } },
-  )
+exports.setUserPass = ({ newPassword, username }) =>
+  models.Auth.updateOne({ username }, { $set: { password: newPassword } })

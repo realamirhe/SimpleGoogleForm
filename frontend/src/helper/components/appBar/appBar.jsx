@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 // third-party-packages
 import { withStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
 // assets
 import image from '../../../assets/images/brand.png'
 
@@ -10,6 +9,7 @@ const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
     cursor: 'pointer',
+    minWidth: 70,
   },
   input: {
     display: 'none',
@@ -53,11 +53,9 @@ const AppBar = ({
           padding: 15,
         }}
       />
-      {rightText && (
-        <span className={classes.button} onClick={onRightClick}>
-          {rightText}
-        </span>
-      )}
+      <span className={classes.button} onClick={onRightClick}>
+        {rightText}
+      </span>
     </div>
   )
 }

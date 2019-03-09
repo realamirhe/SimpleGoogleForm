@@ -174,14 +174,13 @@ router.post('/signin', ({ body }, res) =>
 
 router.post(
   '/changePassword',
-  ({ body: { username, password, lastUsername, lastPassword } }, res) =>
-    checkPassword({ username: lastUsername, password: lastPassword }).then(
-      access =>
-        access
-          ? database
-              .setUserPass({ username, lastUsername, password })
-              .then(() => res.send('seccessful'))
-          : res.status(403).send('access denied'),
+  ({ body: { password, username, newPassword } }, res) =>
+    checkPassword({ username, password }).then(access =>
+      access
+        ? database
+            .setUserPass({ username, newPassword })
+            .then(() => res.send({ msg: 'seccessful' }))
+        : res.status(403).send('access denied'),
     ),
 )
 

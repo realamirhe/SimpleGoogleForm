@@ -15,7 +15,6 @@ import timingUtil from './timing'
 import { saveBlobToDisk } from '../../../helper/functions/download'
 // component
 import Form from '../../../helper/components/form'
-import Icon from '../../../helper/components/Icon'
 import AppBar from '../../../helper/components/appBar/appBar'
 // // assets
 import Pencil from '../../../assets/sound_fx/pencil.mp3'
@@ -84,6 +83,7 @@ class StudentForm extends Component {
 
     getTestResult({ formId, answers: questions, computeRanking }).then(
       ({ rank, percentage, fileName }) => {
+        console.log({ rank, percentage, fileName })
         const description =
           computeRanking && !rank
             ? `شما قبلا یکبار این ازمون را شرکت کرده اید. برای هر ازمون تنها یکبار رتبه صادر میگردد`
@@ -164,7 +164,7 @@ class StudentForm extends Component {
               </Fab>
             )
           }
-          onLeftClick={() => this.handleDialog('OPEN')}
+          onLeftClick={() => console.log('hello') || this.handleDialog('OPEN')}
           onRightClick={() =>
             downloadPdf(fileName).then(blob => saveBlobToDisk(blob, fileName))
           }
@@ -188,12 +188,12 @@ class StudentForm extends Component {
             changeAnswer={this.changeAnswer}
           />
         </SimpleBar>
-        {hasTestResult && fileName && (
+        {hasTestResult && formName && (
           <Dialog
             open={isDialogOpen}
             handleClose={() => this.handleDialog('CLOSE')}
             formName={formName}
-            testInfo={testInfo | undefined}
+            testInfo={testInfo || undefined}
           />
         )}
       </div>

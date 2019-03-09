@@ -38,7 +38,7 @@ const styles = theme => ({
 
 // TODO: onClick={/* request to form id*/}
 /* Mini Form Item */
-const MiniFormItem = ({ classes, formName, formId }) => {
+const MiniFormItem = ({ classes, formName, formId, url }) => {
   return (
     <Card className={classes.card}>
       <ExpansionPanel>
@@ -63,7 +63,7 @@ const MiniFormItem = ({ classes, formName, formId }) => {
         <ExpansionPanelDetails>
           <Typography color="inherit" className={classes.link}>
             <Link href={formId} className={classes.link}>
-              {formId}
+              {`${url}${formId}`}
             </Link>
           </Typography>
         </ExpansionPanelDetails>
@@ -75,6 +75,7 @@ const MiniFormItem = ({ classes, formName, formId }) => {
 MiniFormItem.propTypes = {
   formName: PropTypes.string,
   formId: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
 }
 MiniFormItem.defaultProps = {
   formName: 'Unknown Form',
