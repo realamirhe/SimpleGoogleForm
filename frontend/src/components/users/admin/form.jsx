@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { navigate } from '@reach/router'
 
@@ -14,7 +14,8 @@ import {
 import { REMOVE } from '../../../helper/functions/constants'
 // component
 import Form from '../../../helper/components/form'
-import WithAppBar from '../../../helper/components/appBar/withAppBar.jsx'
+import WithAppBar from '../../../helper/components/appBar/withAppBar'
+import SnackBar from '../../../helper/components/snackBar'
 
 class AdminForm extends Component {
   constructor(props) {
@@ -31,6 +32,8 @@ class AdminForm extends Component {
       selectedFile: null,
       // user experience
       isSnackBarOpen: false,
+      // snack bar
+      message: '',
     }
 
     this.sendClicked = false
@@ -108,6 +111,7 @@ class AdminForm extends Component {
   handleSelectedFile(event) {
     this.setState({
       selectedFile: event.target.files[0],
+      message: ` با موفقیت بارگذاری شد ${event.target.files[0].name}`,
     })
   }
 
@@ -119,22 +123,31 @@ class AdminForm extends Component {
 
   // render
   render() {
-    const { formName, questions, isSnackBarOpen } = this.state
+    const { formName, questions, isSnackBarOpen, message } = this.state
     return (
-      <WithAppBar
-        leftText="بازگشت"
-        onLeftClick={() => navigate('/adminPage/forms')}
-      >
-        <Form
-          formName={formName}
-          questions={questions}
-          openSnackBar={isSnackBarOpen}
-          sendForm={this.send}
-          snackBarHandler={this.snackBarHandler}
-          changeAnswer={this.changeAnswer}
-          onFileUpload={this.handleSelectedFile}
+      <Fragment>
+        <WithAppBar
+          leftText="بازگشت"
+          onLeftClick={() => navigate('/adminPage/forms')}
+        >
+          <Form
+            formName={formName}
+            questions={questions}
+            openSnackBar={isSnackBarOpen}
+            sendForm={this.send}
+            snackBarHandler={this.snackBarHandler}
+            changeAnswer={this.changeAnswer}
+            onFileUpload={this.handleSelectedFile}
+          />
+        </WithAppBar>
+        <SnackBar
+          open={!!message}
+          variant="success"
+          message={message}
+          autoHideDuration={50000}
+          onClose={() => this.setState({ message: '' })}
         />
-      </WithAppBar>
+      </Fragment>
     )
   }
 }

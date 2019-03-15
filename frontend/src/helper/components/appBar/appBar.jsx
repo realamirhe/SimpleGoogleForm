@@ -39,7 +39,11 @@ const AppBar = ({
         zIndex: 2,
       }}
     >
-      <span className={classes.button} onClick={onLeftClick}>
+      <span
+        className={classes.button}
+        style={{ cursor: !leftText ? 'inherit' : 'pointer' }}
+        onClick={onLeftClick}
+      >
         {leftText}
       </span>
       <img
@@ -53,7 +57,11 @@ const AppBar = ({
           padding: 15,
         }}
       />
-      <span className={classes.button} onClick={onRightClick}>
+      <span
+        className={classes.button}
+        style={{ cursor: !rightText ? 'inherit' : 'pointer' }}
+        onClick={onRightClick}
+      >
         {rightText}
       </span>
     </div>

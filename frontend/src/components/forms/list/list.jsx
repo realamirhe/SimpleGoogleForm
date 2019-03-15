@@ -9,6 +9,8 @@ import NoteAdd from '@material-ui/icons/NoteAdd'
 import Icon from '../../../helper/components/Icon'
 import MiniFormItem from '../item'
 import WithAppBar from '../../../helper/components/appBar/withAppBar.jsx'
+import SimpleBar from 'simplebar-react'
+
 // style
 import './style.scss'
 
@@ -20,38 +22,47 @@ const MiniFormList = ({ forms, isAdminLoggedIn, location: { origin } }) => {
     <WithAppBar
       leftText="خروج"
       rightText="تغیر رمز عبور"
-      disableBar
       onLeftClick={() => {
         localStorage.clear()
         navigate('/')
       }}
+      disableBar
       onRightClick={() => navigate('/adminPage/changePassword')}
     >
       {isAdminLoggedIn && (
         <div className="mini-form__list">
           <Icon
-            icon={<NoteAdd style={{ width: 30, height: 30 }} />}
+            icon={<NoteAdd style={{ width: 50, height: 30 }} />}
             ariaLabel="note-add"
             size="large"
             text="ساخت فرم جدید"
             style={{
-              width: 120,
+              width: 180,
               borderRadius: 15,
               backgroundColor: '#7cb342',
             }}
             onClick={() => navigate('/adminPage/createFormInfo')}
           />
-          {R.map(
-            ({ name, _id }) => (
-              <MiniFormItem
-                key={_id}
-                formName={name}
-                formId={_id}
-                url={`${origin}/forms/`}
-              />
-            ),
-            forms,
-          )}
+          <SimpleBar
+            style={{
+              width: 490,
+              height: 385,
+            }}
+          >
+            <div>
+              {R.map(
+                ({ name, _id }) => (
+                  <MiniFormItem
+                    key={_id}
+                    formName={name}
+                    formId={_id}
+                    url={`${origin}/forms/`}
+                  />
+                ),
+                forms,
+              )}
+            </div>
+          </SimpleBar>
         </div>
       )}
     </WithAppBar>

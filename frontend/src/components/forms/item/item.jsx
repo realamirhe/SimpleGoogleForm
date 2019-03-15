@@ -16,13 +16,16 @@ import Icon from '../../../helper/components/Icon'
 import { withStyles } from '@material-ui/core/styles'
 // assets
 import Edit from '@material-ui/icons/Edit'
+import Delete from '@material-ui/icons/Delete'
 
 const styles = theme => ({
   card: {
     display: 'flex',
     justifyContent: 'center',
+    flexDirection: 'row-reverse',
     alignItems: 'center',
     margin: 10,
+    scrollSnapAlign: 'start',
   },
   content: {
     flex: '1 0 auto',
@@ -43,11 +46,21 @@ const MiniFormItem = ({ classes, formName, formId, url }) => {
     <Card className={classes.card}>
       <ExpansionPanel>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <CardContent className={classes.content}>
-            <Typography variant="subtitle1">{formName}</Typography>
-          </CardContent>
           <Icon
-            color="secondary"
+            color="primary"
+            icon={<Delete />}
+            style={{
+              paddingRight: 0,
+              marginRight: 5,
+            }}
+            ariaLabel="Delete"
+            onClick={event => {
+              event.stopPropagation()
+              navigate(`/adminPage/${formId}`)
+            }}
+          />
+          <Icon
+            color="primary"
             icon={<Edit />}
             style={{
               paddingRight: 0,
@@ -59,6 +72,11 @@ const MiniFormItem = ({ classes, formName, formId, url }) => {
               navigate(`/adminPage/${formId}`)
             }}
           />
+          <CardContent className={classes.content}>
+            <Typography dir="rtl" variant="subtitle1">
+              {formName}
+            </Typography>
+          </CardContent>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <Typography color="inherit" className={classes.link}>

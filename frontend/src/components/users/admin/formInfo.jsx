@@ -35,7 +35,7 @@ class FormInfo extends Component {
     this.state = {
       formName: '',
       initialQuestionCount: 0,
-      errorOcurred: false,
+      errorMessage: '',
     }
     this.onChange = this.onChange.bind(this)
   }
@@ -44,7 +44,7 @@ class FormInfo extends Component {
   }
 
   render() {
-    const { initialQuestionCount, formName, errorOcurred } = this.state
+    const { initialQuestionCount, formName, errorMessage } = this.state
     const { classes, setNewFormInfo } = this.props
     return (
       <WithAppBar
@@ -71,26 +71,28 @@ class FormInfo extends Component {
             <Button
               text="ساخت ازمون"
               onClick={() => {
-                if (initialQuestionCount > 0) {
+                if (initialQuestionCount > 0 && formName) {
                   setNewFormInfo({
-                    formName:
-                      formName ||
-                      Math.random()
-                        .toString(36)
-                        .replace(/[^a-z]+/g, '')
-                        .substr(0, 10),
+                    formName,
                     initialQuestionCount,
                   })
                   navigate('/adminPage/createNewForm')
-                } else this.setState({ errorOcurred: true })
+                } else if (initialQuestionCount <= 0)
+                  this.setState({
+                    errorMessage: 'تعداد سوالات حتما باید عددی مثبت باشد',
+                  })
+                else
+                  this.setState({
+                    errorMessage: 'برای فرم نامی انتخاب نشده',
+                  })
               }}
             />
           </Paper>
           <SnackBar
-            open={errorOcurred}
+            open={!!errorMessage}
             variant="error"
-            message="تعداد سوالات حتما باید عددی مثبت باشد"
-            onClose={() => this.setState({ errorOcurred: false })}
+            message={errorMessage}
+            onClose={() => this.setState({ errorMessage: '' })}
           />
         </Fragment>
       </WithAppBar>

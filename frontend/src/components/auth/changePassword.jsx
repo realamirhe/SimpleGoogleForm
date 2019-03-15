@@ -106,13 +106,14 @@ class ChangePassword extends Component {
             type={showPassword0 ? 'text' : 'password'}
             value={password0}
             variant="outlined"
-            label="رمز قبلی"
+            placeholder="رمز قبلی"
             name="username"
             margin="dense"
             InputProps={{
-              endAdornment: (
+              dir: 'rtl',
+              startAdornment: (
                 <InputAdornment
-                  position="end"
+                  position="start"
                   className={classNames(classes.icon)}
                   onClick={this.handleClickShowPassword(0)}
                 >
@@ -126,14 +127,15 @@ class ChangePassword extends Component {
             className={classNames(classes.margin, classes.textField)}
             variant="outlined"
             type={showPassword1 ? 'text' : 'password'}
-            label="رمز جدید"
+            placeholder="رمز جدید"
             value={password1}
             margin="dense"
             onChange={this.handleChange('password1')}
             InputProps={{
-              endAdornment: (
+              dir: 'rtl',
+              startAdornment: (
                 <InputAdornment
-                  position="end"
+                  position="start"
                   className={classNames(classes.icon)}
                   onClick={this.handleClickShowPassword(1)}
                 >
@@ -148,14 +150,15 @@ class ChangePassword extends Component {
             className={classNames(classes.margin, classes.textField)}
             variant="outlined"
             type={showPassword2 ? 'text' : 'password'}
-            label="تکرار رمز جدید"
+            placeholder="تکرار رمز جدید"
             value={password2}
             margin="dense"
             onChange={this.handleChange('password2')}
             InputProps={{
-              endAdornment: (
+              dir: 'rtl',
+              startAdornment: (
                 <InputAdornment
-                  position="end"
+                  position="start"
                   className={classNames(classes.icon)}
                   onClick={this.handleClickShowPassword(2)}
                 >
@@ -166,27 +169,32 @@ class ChangePassword extends Component {
           />
           <AnimatedButton
             onClick={() => {
-              // TODO: validate password errors are handled by snackbar. and change password in db and localstorage
-              if (password1 !== password2)
+              if (!(password0 && password1 && password2))
+                this.setState({
+                  errorMessage: 'لطفا همه ی قسمت ها را پر کنید',
+                })
+              else if (password1 !== password2)
                 this.setState({
                   errorMessage: 'رمز عبور های جدید با هم متفاوت اند',
                 })
+              else if (password1.length < 8)
+                this.setState({
+                  errorMessage: 'رمز عبور حدالقل باید 8 حرف داشته باشد',
+                })
               else
                 changePassword(password2)
-                  .then(
-                    a =>
-                      console.log(a) ||
-                      R.ifElse(
-                        R.equals('seccessful'),
-                        R.compose(
-                          () => navigate('/adminPage/forms'),
-                          () => save('password', password2),
-                        ),
-                        () =>
-                          this.setState({
-                            errorMessage: 'رمزعبور قبلی را اشتباه وارد کردید',
-                          }),
-                      )(a),
+                  .then(state =>
+                    R.ifElse(
+                      R.equals('seccessful'),
+                      R.compose(
+                        () => navigate('/adminPage/forms'),
+                        () => save('password', password2),
+                      ),
+                      () =>
+                        this.setState({
+                          errorMessage: 'رمزعبور قبلی را اشتباه وارد کردید',
+                        }),
+                    )(state),
                   )
                   .catch(() => navigate('/'))
             }}

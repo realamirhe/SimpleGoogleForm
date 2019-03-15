@@ -87,12 +87,13 @@ class SignIn extends Component {
             onChange={this.handleChange('username')}
             value={username}
             variant="outlined"
-            label="نام کاربری"
+            placeholder="نام کاربری"
             name="username"
             margin="dense"
             InputProps={{
-              endAdornment: (
-                <InputAdornment className={classes.icon} position="end">
+              dir: 'rtl',
+              startAdornment: (
+                <InputAdornment className={classes.icon} position="start">
                   <Face />
                 </InputAdornment>
               ),
@@ -103,14 +104,15 @@ class SignIn extends Component {
             className={classNames(classes.margin, classes.textField)}
             variant="outlined"
             type={showPassword ? 'text' : 'password'}
-            label="رمز عبور"
+            placeholder="رمز عبور"
             value={password}
             margin="dense"
             onChange={this.handleChange('password')}
             InputProps={{
-              endAdornment: (
+              dir: 'rtl',
+              startAdornment: (
                 <InputAdornment
-                  position="end"
+                  position="start"
                   className={classNames(classes.icon)}
                   onClick={this.handleClickShowPassword}
                 >

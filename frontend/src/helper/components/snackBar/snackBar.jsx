@@ -38,6 +38,7 @@ const styles = theme => ({
   message: {
     display: 'flex',
     alignItems: 'center',
+    flexGrow: 2,
   },
 })
 

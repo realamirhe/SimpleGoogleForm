@@ -83,7 +83,6 @@ class StudentForm extends Component {
 
     getTestResult({ formId, answers: questions, computeRanking }).then(
       ({ rank, percentage, fileName }) => {
-        console.log({ rank, percentage, fileName })
         const description =
           computeRanking && !rank
             ? `شما قبلا یکبار این ازمون را شرکت کرده اید. برای هر ازمون تنها یکبار رتبه صادر میگردد`
@@ -164,7 +163,7 @@ class StudentForm extends Component {
               </Fab>
             )
           }
-          onLeftClick={() => console.log('hello') || this.handleDialog('OPEN')}
+          onLeftClick={() => this.handleDialog('OPEN')}
           onRightClick={() =>
             downloadPdf(fileName).then(blob => saveBlobToDisk(blob, fileName))
           }
