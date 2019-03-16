@@ -1,13 +1,10 @@
 import React, { Component } from 'react'
-import * as R from 'ramda'
 // Components
 import AdminPage from './components/_adminPage/adminPage'
 import { Router } from '@reach/router'
 import SignIn from './components/auth/signIn'
 import StudentForm from './components/users/students/form'
-
 import NotFound from './components/notFoundPage'
-
 // helper
 import { load } from './helper/functions/localStorage'
 // style

@@ -104,6 +104,7 @@ MiniFormList.propTypes = {
       _id: PropTypes.string.isRequired,
     }),
   ).isRequired,
+  removeForm: PropTypes.func.isRequired,
 }
 
 export default MiniFormList

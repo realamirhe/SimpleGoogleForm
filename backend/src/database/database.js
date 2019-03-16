@@ -2,10 +2,16 @@ const mongoose = require('mongoose')
 const models = require('./databaseModel')
 
 exports.connect = dbName => {
+  // ***** mongodb atlas
   mongoose.connect(
     `mongodb://hoseinNorouzi:wfTN-2Eb4iNKMGW@cluster0-shard-00-00-2dpuf.mongodb.net:27017,cluster0-shard-00-01-2dpuf.mongodb.net:27017,cluster0-shard-00-02-2dpuf.mongodb.net:27017/${dbName}?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true`,
     { useNewUrlParser: true },
   )
+
+  // **** local
+  // mongoose.connect(`mongodb://localhost/${dbName}`, {
+  //   useNewUrlParser: true,
+  // })
 
   const db = mongoose.connection
   db.on('error', () => console.log('can not connect to mongo db'))
@@ -17,6 +23,16 @@ exports.addForm = ({ name, answers }) =>
     name,
     answers,
   }).save()
+
+// ***** setup
+// setTimeout(
+//   () =>
+//     new models.Auth({
+//       username: 'admin',
+//       password: '1234',
+//     }).save(),
+//   100,
+// )
 
 exports.getFormAnswersById = id =>
   models.Form.findOne({ _id: id }).select(
@@ -49,3 +65,5 @@ exports.getUserPass = () => models.Auth.find({}).select('username password')
 
 exports.setUserPass = ({ newPassword, username }) =>
   models.Auth.updateOne({ username }, { $set: { password: newPassword } })
+
+exports.deleteFormById = formId => models.Form.deleteOne({ _id: formId })

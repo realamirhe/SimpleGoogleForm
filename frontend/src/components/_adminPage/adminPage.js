@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Router, navigate } from '@reach/router'
-
+import * as R from 'ramda'
 // Components
 import AdminPage from '../forms/list/list'
 import AdminFillForm from '../users/admin/form'
@@ -20,6 +20,8 @@ class App extends Component {
     }
 
     this.onChange = this.onChange.bind(this)
+    this.removeForm = this.removeForm.bind(this)
+    this.addNewForm = this.addNewForm.bind(this)
   }
 
   componentWillMount() {
@@ -28,6 +30,16 @@ class App extends Component {
       .catch(() => navigate('/'))
   }
   onChange = (key, value) => this.setState({ [key]: value })
+
+  removeForm = formId =>
+    this.setState(({ forms }) => ({
+      forms: R.filter(item => item._id !== formId, forms),
+    }))
+
+  addNewForm = formData =>
+    this.setState(({ forms }) => ({
+      forms: R.append(formData, forms),
+    }))
 
   render() {
     const { isAdminLoggedIn, location } = this.props
@@ -39,6 +51,7 @@ class App extends Component {
           forms={forms}
           isAdminLoggedIn={isAdminLoggedIn}
           selectForm={this.onChange}
+          removeForm={this.removeForm}
         />
         <LinkPreview
           path="linkPreview"
@@ -52,6 +65,7 @@ class App extends Component {
           path="createNewForm"
           {...newFormInfo}
           setNewPageId={value => this.onChange('newPageId', value)}
+          addNewForm={this.addNewForm}
         />
         <ChangePassword path="changePassword" />
         <AdminFillForm path=":formId" editMode />
