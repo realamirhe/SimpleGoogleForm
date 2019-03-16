@@ -16,6 +16,7 @@ import Icon from '../../../helper/components/Icon'
 import { withStyles } from '@material-ui/core/styles'
 // assets
 import Edit from '@material-ui/icons/Edit'
+import FileCopy from '@material-ui/icons/FileCopy'
 import Delete from '@material-ui/icons/Delete'
 
 const styles = theme => ({
@@ -41,7 +42,7 @@ const styles = theme => ({
 
 // TODO: onClick={/* request to form id*/}
 /* Mini Form Item */
-const MiniFormItem = ({ classes, formName, formId, url }) => {
+const MiniFormItem = ({ classes, formName, formId, url, onCopy }) => {
   return (
     <Card className={classes.card}>
       <ExpansionPanel>
@@ -64,12 +65,26 @@ const MiniFormItem = ({ classes, formName, formId, url }) => {
             icon={<Edit />}
             style={{
               paddingRight: 0,
-              marginRight: 25,
+              marginRight: 5,
             }}
             ariaLabel="Edit"
             onClick={event => {
               event.stopPropagation()
               navigate(`/adminPage/${formId}`)
+            }}
+          />
+          <Icon
+            color="primary"
+            icon={<FileCopy />}
+            style={{
+              paddingRight: 0,
+              marginRight: 15,
+            }}
+            ariaLabel="Edit"
+            onClick={event => {
+              navigator.clipboard.writeText(`${url}${formId}`)
+              event.stopPropagation()
+              onCopy(formName)
             }}
           />
           <CardContent className={classes.content}>
@@ -94,9 +109,11 @@ MiniFormItem.propTypes = {
   formName: PropTypes.string,
   formId: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
+  onCopy: PropTypes.func,
 }
 MiniFormItem.defaultProps = {
   formName: 'Unknown Form',
+  onCopy: Function.prototype,
 }
 
 export default withStyles(styles)(MiniFormItem)
