@@ -32,7 +32,7 @@ const styles = theme => ({
     scrollSnapAlign: 'start',
   },
   content: {
-    width: 250,
+    width: 230,
     textOverflow: 'ellipsis',
 
     /* Needed to make it work */
