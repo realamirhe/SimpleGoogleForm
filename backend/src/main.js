@@ -1,5 +1,6 @@
 // modules
 const express = require('express')
+const cors = require('cors')
 
 // files
 const router = require('./router')
@@ -10,11 +11,17 @@ const port = process.env.PORT || 3001
 const app = express()
 database.connect('form_db')
 
-app.use((_, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Headers', '*')
-  next()
-})
+app.use(
+  cors({
+    origin: '*',
+    methods: 'GET,POST',
+  }),
+)
+// app.use((_, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*')
+//   res.header('Access-Control-Allow-Headers', '*')
+//   next()
+// })
 
 app.use('/', router.Router)
 

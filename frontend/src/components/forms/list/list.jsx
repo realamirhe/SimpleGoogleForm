@@ -16,7 +16,12 @@ import './style.scss'
 
 // TODO: onClick Add Icon
 /* Mini Form List  */
-const MiniFormList = ({ forms, isAdminLoggedIn, location: { origin } }) => {
+const MiniFormList = ({
+  forms,
+  isAdminLoggedIn,
+  removeForm,
+  location: { origin },
+}) => {
   if (!isAdminLoggedIn) setTimeout(navigate, 0, '/')
   return (
     <WithAppBar
@@ -45,7 +50,8 @@ const MiniFormList = ({ forms, isAdminLoggedIn, location: { origin } }) => {
           />
           <SimpleBar
             style={{
-              width: 490,
+              width: '100%',
+              minWidth: 490,
               height: 385,
             }}
           >
@@ -53,6 +59,7 @@ const MiniFormList = ({ forms, isAdminLoggedIn, location: { origin } }) => {
               {R.map(
                 ({ name, _id }) => (
                   <MiniFormItem
+                    removeForm={removeForm}
                     key={_id}
                     formName={name}
                     formId={_id}
@@ -76,6 +83,7 @@ MiniFormList.propTypes = {
       _id: PropTypes.string.isRequired,
     }),
   ).isRequired,
+  removeForm: PropTypes.func.isRequired,
 }
 
 export default MiniFormList

@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import * as R from 'ramda'
 import { navigate } from '@reach/router'
 // third-party-packages
 import Card from '@material-ui/core/Card'
@@ -18,6 +19,8 @@ import { withStyles } from '@material-ui/core/styles'
 import Edit from '@material-ui/icons/Edit'
 import Delete from '@material-ui/icons/Delete'
 
+import { deleteForm } from '../../../helper/functions/requestHandler'
+
 const styles = theme => ({
   card: {
     display: 'flex',
@@ -28,7 +31,12 @@ const styles = theme => ({
     scrollSnapAlign: 'start',
   },
   content: {
-    flex: '1 0 auto',
+    width: 250,
+    textOverflow: 'ellipsis',
+
+    /* Needed to make it work */
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
   },
   link: {
     margin: theme.spacing.unit,
@@ -41,7 +49,7 @@ const styles = theme => ({
 
 // TODO: onClick={/* request to form id*/}
 /* Mini Form Item */
-const MiniFormItem = ({ classes, formName, formId, url }) => {
+const MiniFormItem = ({ classes, formName, formId, url, removeForm }) => {
   return (
     <Card className={classes.card}>
       <ExpansionPanel>
@@ -56,7 +64,9 @@ const MiniFormItem = ({ classes, formName, formId, url }) => {
             ariaLabel="Delete"
             onClick={event => {
               event.stopPropagation()
-              navigate(`/adminPage/${formId}`)
+              deleteForm(formId)
+                .then(R.when(R.equals('seccessful'), () => removeForm(formId)))
+                .catch(() => navigate('/'))
             }}
           />
           <Icon
@@ -72,8 +82,12 @@ const MiniFormItem = ({ classes, formName, formId, url }) => {
               navigate(`/adminPage/${formId}`)
             }}
           />
-          <CardContent className={classes.content}>
-            <Typography dir="rtl" variant="subtitle1">
+          <CardContent>
+            <Typography
+              dir="auto"
+              className={classes.content}
+              variant="subtitle1"
+            >
               {formName}
             </Typography>
           </CardContent>
@@ -94,6 +108,7 @@ MiniFormItem.propTypes = {
   formName: PropTypes.string,
   formId: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
+  removeForm: PropTypes.func.isRequired,
 }
 MiniFormItem.defaultProps = {
   formName: 'Unknown Form',

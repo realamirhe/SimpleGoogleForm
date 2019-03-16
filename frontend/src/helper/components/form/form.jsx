@@ -68,7 +68,11 @@ const Form = ({
 
       <span className={classes.buttons}>
         {!disableUpload && <UploadButton onChange={onFileUpload} />}
-        <Button type="secondary" text="ارسال فرم" onClick={sendForm} />
+        <Button
+          type="secondary"
+          text={disableUpload ? 'ارسال پاسخ' : 'ارسال فرم'}
+          onClick={sendForm}
+        />
       </span>
 
       <SnackBar

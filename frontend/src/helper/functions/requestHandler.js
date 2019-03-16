@@ -54,7 +54,7 @@ const makeForm = formData => {
     .post(config.server + '/addNewForm')
     .set('Access-Control-Allow-Origin', '*')
     .send(formData)
-    .then(R.path(['body', 'id'])) // ({id})
+    .then(R.prop('body')) // ({_id, name})
 }
 
 const editForm = formData => {
@@ -67,13 +67,28 @@ const editForm = formData => {
     .send(formData)
 }
 
+const deleteForm = formId =>
+  request
+    .post(config.server + '/deleteForm')
+    .set('Access-Control-Allow-Origin', '*')
+    .send({
+      formId,
+      username: load('username'),
+      password: load('password'),
+    })
+    .then(R.path(['body', 'msg'])) // ({msg})
+
 // user panel #######################################
 
 const userGetForm = formId =>
   request
     .post(config.server + '/userGetForm')
     .set('Access-Control-Allow-Origin', '*')
-    .send({ formId })
+    .send({
+      formId,
+      username: load('username'),
+      password: load('password'),
+    })
     .then(R.prop('body')) // { name, questionsNumber }
 
 const getTestResult = data =>
@@ -104,4 +119,5 @@ export {
   editForm,
   downloadPdf,
   changePassword,
+  deleteForm,
 }

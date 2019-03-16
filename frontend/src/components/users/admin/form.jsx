@@ -75,7 +75,7 @@ class AdminForm extends Component {
 
   send() {
     const { formName, formId, questions, selectedFile } = this.state
-    const { editMode, setNewPageId } = this.props
+    const { editMode, setNewPageId, addNewForm } = this.props
 
     if (R.any(R.isNil, questions)) {
       this.snackBarHandler(true)
@@ -98,8 +98,9 @@ class AdminForm extends Component {
         formData.append('answers', JSON.stringify(questions))
         formData.append('pdf', selectedFile)
         makeForm(formData)
-          .then(id => {
-            setNewPageId(id)
+          .then(({ name, _id }) => {
+            setNewPageId(_id)
+            addNewForm({ name, _id })
             navigate(`/adminPage/linkPreview`)
           })
           .catch(() => navigate('/'))
@@ -158,6 +159,7 @@ AdminForm.propTypes = {
   initialSolution: PropTypes.string,
   editMode: PropTypes.bool,
   setNewPageId: PropTypes.func,
+  addNewForm: PropTypes.func,
 }
 
 AdminForm.defaultProps = {
@@ -167,6 +169,7 @@ AdminForm.defaultProps = {
   initialSolution: '',
   editMode: false,
   setNewPageId: Function.prototype,
+  addNewForm: Function.prototype,
 }
 
 export default AdminForm

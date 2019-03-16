@@ -63,13 +63,13 @@ router.post('/addNewForm', (req, res) =>
             name: req.body.name,
             answers: JSON.parse(req.body.answers),
           })
-          .then(({ _id }) => {
+          .then(({ name, _id }) => {
             if (req.file)
               database
                 .editFormFileName(_id, `${req.file.filename}`)
-                .then(() => res.send({ id: _id }))
+                .then(() => res.send({ _id, name }))
                 .catch(error => res.status(500).send(error))
-            else res.send({ id: _id })
+            else res.send({ _id, name })
           })
           .catch(error => res.status(500).send(error))
       } else res.status(403).send('access denied')
@@ -150,6 +150,17 @@ router.get('/getForms', ({ query }, res) =>
       ? database
           .getForms()
           .then(result => res.send({ result }))
+          .catch(err => res.status(500).send(err))
+      : res.status(403).send('access denied'),
+  ),
+)
+
+router.post('/deleteForm', ({ body: { username, password, formId } }, res) =>
+  checkPassword({ username, password }).then(access =>
+    access
+      ? database
+          .deleteFormById(formId)
+          .then(() => res.send({ msg: 'seccessful' }))
           .catch(err => res.status(500).send(err))
       : res.status(403).send('access denied'),
   ),
