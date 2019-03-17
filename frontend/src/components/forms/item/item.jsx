@@ -6,10 +6,6 @@ import { navigate } from '@reach/router'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
-import ExpansionPanel from '@material-ui/core/ExpansionPanel'
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Link from '@material-ui/core/Link'
 // component
 import Icon from '../../../helper/components/Icon'
@@ -26,7 +22,7 @@ const styles = theme => ({
   card: {
     display: 'flex',
     justifyContent: 'center',
-    flexDirection: 'row-reverse',
+    flexDirection: 'row',
     alignItems: 'center',
     margin: 10,
     scrollSnapAlign: 'start',
@@ -39,9 +35,7 @@ const styles = theme => ({
     overflow: 'hidden',
     whiteSpace: 'nowrap',
   },
-  link: {
-    margin: theme.spacing.unit,
-  },
+
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
@@ -60,68 +54,53 @@ const MiniFormItem = ({
 }) => {
   return (
     <Card className={classes.card}>
-      <ExpansionPanel>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Icon
-            color="primary"
-            icon={<Delete />}
-            style={{
-              paddingRight: 0,
-              marginRight: 5,
-            }}
-            ariaLabel="Delete"
-            onClick={event => {
-              event.stopPropagation()
-              deleteForm(formId)
-                .then(R.when(R.equals('seccessful'), () => removeForm(formId)))
-                .catch(() => navigate('/'))
-            }}
-          />
-          <Icon
-            color="primary"
-            icon={<Edit />}
-            style={{
-              paddingRight: 0,
-              marginRight: 5,
-            }}
-            ariaLabel="Edit"
-            onClick={event => {
-              event.stopPropagation()
-              navigate(`/adminPage/${formId}`)
-            }}
-          />
-          <Icon
-            color="primary"
-            icon={<FileCopy />}
-            style={{
-              paddingRight: 0,
-              marginRight: 15,
-            }}
-            ariaLabel="Edit"
-            onClick={event => {
-              navigator.clipboard.writeText(`${url}${formId}`)
-              event.stopPropagation()
-              onCopy(formName)
-            }}
-          />
-          <CardContent>
-            <Typography
-              dir="auto"
-              className={classes.content}
-              variant="subtitle1"
-            >
-              {formName}
-            </Typography>
-          </CardContent>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <Typography color="inherit" className={classes.link}>
-            <Link href={formId} className={classes.link}>
-              {`${url}${formId}`}
-            </Link>
-          </Typography>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
+      <Icon
+        color="primary"
+        icon={<Delete />}
+        style={{
+          paddingRight: 0,
+          marginRight: 5,
+        }}
+        ariaLabel="Delete"
+        onClick={event => {
+          event.stopPropagation()
+          deleteForm(formId)
+            .then(R.when(R.equals('seccessful'), () => removeForm(formId)))
+            .catch(() => navigate('/'))
+        }}
+      />
+      <Icon
+        color="primary"
+        icon={<Edit />}
+        style={{
+          paddingRight: 0,
+          marginRight: 5,
+        }}
+        ariaLabel="Edit"
+        onClick={event => {
+          event.stopPropagation()
+          navigate(`/adminPage/${formId}`)
+        }}
+      />
+      <Icon
+        color="primary"
+        icon={<FileCopy />}
+        style={{
+          paddingRight: 0,
+          marginRight: 15,
+        }}
+        ariaLabel="Edit"
+        onClick={event => {
+          navigator.clipboard.writeText(`${url}${formId}`)
+          event.stopPropagation()
+          onCopy(formName)
+        }}
+      />
+      <CardContent>
+        <Typography dir="auto" className={classes.content} variant="subtitle1">
+          {formName}
+        </Typography>
+      </CardContent>
     </Card>
   )
 }
