@@ -29,7 +29,7 @@ class MiniFormList extends Component {
       forms,
       isAdminLoggedIn,
       location: { origin },
-      removeFrom,
+      removeForm,
     } = this.props
     const { snackBarMessage } = this.state
     if (!isAdminLoggedIn) setTimeout(navigate, 0, '/')
@@ -75,8 +75,8 @@ class MiniFormList extends Component {
                         key={_id}
                         formName={name}
                         formId={_id}
-                        removeFrom={removeFrom}
                         url={`${origin}/forms/`}
+                        removeForm={removeForm}
                       />
                     ),
                     forms,
